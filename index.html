@@ -24,7 +24,14 @@
 <body>
 
       
-      <h1>Unlock Demo</h1>
+      <h1>Unlock Buy</h1>
+      <select id="chainselect" onchange="updateLock()">
+        <option value="1">Mainnet
+        <option value="4">rinkeby
+        <option value="100">xDai
+        <option value="137">polygon
+      </select>
+      <input id="lockaddress" onchange="updateLock()" size="50"/>
       <p class="unlock-content locked">Unlock Demo is currently locked 🔒 </p>
       <p class="unlock-content unlocked">Unlock Demo is currently unlocked 🎉</p>
       <p class="unlock-content locked" onclick="window.unlockProtocol && window.unlockProtocol.loadCheckoutModal()"><button class="button">
@@ -61,7 +68,9 @@
   
   <script>
     var x = document.documentURI
-    var y = x.split("#")[1]
+    var y = x.split("#")
+    document.getElementById("lockaddress").value = y[1]
+    document.getElementById("chainselect").value = y[2]
     var unlockProtocolConfig = {
         "network": "4", // Network ID (1 is for mainnet, 4 for rinkeby, 100 for xDai, etc)  
         "locks": {
@@ -71,7 +80,17 @@
           "default": "Please unlock this demo!"
         }
       }
-    unlockProtocolConfig.locks[y] = "{'name': 'test'}"
+      unlockProtocolConfig.locks[document.getElementById('lockaddress').value] = "{}"
+      unlockProtocolConfig.network = document.getElementById('chainselect').value
+
+      function updateLock(){
+      unlockProtocolConfig.locks[document.getElementById('lockaddress').value] = "{}"
+      unlockProtocolConfig.network = document.getElementById('chainselect').value
+      console.log(unlockProtocolConfig)
+      }
+
+
+
     console.log(unlockProtocolConfig)
   </script>
 </html>
