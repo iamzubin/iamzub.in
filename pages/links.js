@@ -30,6 +30,10 @@ export default function Home() {
       url: "mailto:zchoudhary.10@gmail.com",
       description: "Send me an email",
     },
+    {
+      name: "Telegram",
+      url: "https://t.me/iamzubin",
+    }
   ];
 
   return (
