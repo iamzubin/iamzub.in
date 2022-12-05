@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -49,9 +50,9 @@ export default function Home() {
             width: "100%",
           }}
         >
-          <a className={styles.title} href="/" rel="noopener noreferrer">
+          <Link className={styles.title} href="/" rel="noopener noreferrer">
             &larr;
-          </a>
+          </Link>
           <h1 className={styles.title}>Links</h1>
           <h1
             className={styles.title}
