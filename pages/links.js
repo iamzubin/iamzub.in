@@ -33,6 +33,7 @@ export default function Home() {
     {
       name: "Telegram",
       url: "https://t.me/iamzubin",
+      description: "Chat with me on telegram",
     }
   ];
 
