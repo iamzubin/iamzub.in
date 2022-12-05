@@ -22,7 +22,7 @@ export default function Home() {
     },
     {
       name: "Twitter",
-      url: "https://www.twitter.com/iamzubin/",
+      url: "https://www.twitter.com/_iamzub_in/",
       description: "Follow me on twitter shitposting",
     },
     {
