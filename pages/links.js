@@ -67,6 +67,7 @@ export default function Home() {
         <div className={styles.column}>
           {links.map((link) => (
             <a
+              key={link.name}
               href={link.url}
               className={styles.card}
               target="_blank"
