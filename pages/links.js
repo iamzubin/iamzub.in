@@ -6,14 +6,14 @@ import styles from "../styles/Home.module.css";
 export default function Home() {
   const links = [
     {
-      name: "Resume",
-      url: "/Resume_iamzubin.pdf",
-      description: "Checkout my resume here!!!",
+      name: "Telegram",
+      url: "https://t.me/iamzubin",
+      description: "Chat with me on telegram",
     },
     {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/iamzubin/",
-      description: "Find me on linkdin",
+      description: "Find me on linkedin",
     },
     {
       name: "GitHub",
@@ -23,18 +23,14 @@ export default function Home() {
     {
       name: "Twitter",
       url: "https://www.twitter.com/_iamzub_in/",
-      description: "Follow me on twitter shitposting",
+      description: "Follow me for twitter shitposting",
     },
     {
       name: "Email",
       url: "mailto:zchoudhary.10@gmail.com",
       description: "Send me an email",
-    },
-    {
-      name: "Telegram",
-      url: "https://t.me/iamzubin",
-      description: "Chat with me on telegram",
     }
+
   ];
 
   return (
