@@ -1,21 +1,24 @@
 {
-  "name": "iamzubin",
+  "name": "iamzub.in",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "next build && next export && git add out/ && git commit -m \"Deploy gh-pages\" && git subtree push --prefix out origin main"
+    "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.0.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next": "15.1.0"
   },
   "devDependencies": {
-    "eslint": "8.29.0",
-    "eslint-config-next": "13.0.6"
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
   }
 }
