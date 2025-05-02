@@ -4,6 +4,7 @@ import './globals.css'
 import { Header } from './header'
 import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
+import { Analytics } from "@vercel/analytics/react"
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${geistMono.variable} bg-white tracking-tight antialiased dark:bg-zinc-950`}
       >
+        <Analytics />
         <ThemeProvider
           enableSystem={true}
           attribute="class"
