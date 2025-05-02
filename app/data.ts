@@ -134,6 +134,10 @@ export const BLOG_POSTS: BlogPost[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
+    label: 'Cal',
+    link: 'https://cal.com/iamzubin',
+  },
+  {
     label: 'GitHub',
     link: 'https://github.com/iamzubin',
   },
