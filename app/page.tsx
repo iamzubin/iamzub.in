@@ -62,6 +62,7 @@ function ProjectMedia({ src }: ProjectMediaProps) {
             autoPlay
             loop
             muted
+            playsInline
             className="aspect-video w-full cursor-zoom-in rounded-xl"
           />
         ) : isImage ? (
@@ -84,6 +85,7 @@ function ProjectMedia({ src }: ProjectMediaProps) {
               autoPlay
               loop
               muted
+              playsInline
               className="aspect-video h-[50vh] w-full rounded-xl md:h-[70vh]"
             />
           ) : isImage ? (
