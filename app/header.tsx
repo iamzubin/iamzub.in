@@ -16,7 +16,7 @@ export function Header() {
           className="text-zinc-600 dark:text-zinc-500"
           delay={0.5}
         >
-          Full-Stack Developer · Blockchain Engineer
+          Full-Stack Developer
         </TextEffect>
       </div>
     </header>
