@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     name: 'Holdem',
     description:
       'Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders. ',
-    link: 'https://github.com/iamzubin/holdem',
+    link: 'https://holdem.iamzub.in',
     media:
       '/assets/holdem.gif',
     mediaType: 'image',
