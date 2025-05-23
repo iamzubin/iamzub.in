@@ -8,7 +8,6 @@ import { Input } from "./input"
 import { Label } from "./label"
 import { Textarea } from "./textarea"
 import { toast } from "sonner"
-import { sendToDiscordWebhook } from "@/app/lib/discord-webhook"
 
 export function CompactConnectForm() {
   const [email, setEmail] = useState("")
@@ -28,20 +27,33 @@ export function CompactConnectForm() {
     }
 
     try {
-      const success = await sendToDiscordWebhook({
-        email: email.trim(),
-        name: name.trim(),
-        message: message.trim(),
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          name: name.trim(),
+          message: message.trim(),
+        }),
       })
 
-      if (success) {
+      const data = await response.json()
+
+      if (response.ok) {
         toast.success(isExpanded ? "Your detailed message has been sent!" : "You're connected! I'll be in touch soon.")
         setEmail("")
         setName("")
         setMessage("")
         setIsExpanded(false)
+      } else if (response.status === 429) {
+        toast.error("Too many requests. Please wait a some time before trying again.", {
+          duration: 5000,
+          description: "This helps prevent spam and ensures everyone can use the form."
+        })
       } else {
-        toast.error("Failed to send message. Please try again later.")
+        toast.error(data.error || "Failed to send message. Please try again later.")
       }
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again later.")
