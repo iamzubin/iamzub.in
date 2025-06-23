@@ -4,9 +4,42 @@ import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 
+// GitHub API helper function
+async function getLastCommitDate(filePath: string): Promise<string> {
+    try {
+        const response = await fetch(
+            `https://api.github.com/repos/iamzubin/iamzub.in/commits?path=${filePath}&per_page=1`,
+            {
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                },
+                next: { revalidate: 36000 } // Cache for 10 hours
+            }
+        )
+
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`)
+        }
+
+        const commits = await response.json()
+        
+        if (commits.length > 0) {
+            return new Date(commits[0].commit.committer.date).toISOString()
+        }
+        
+        return new Date().toISOString()
+    } catch (error) {
+        console.error(`Error fetching commit date for ${filePath}:`, error)
+        return new Date().toISOString()
+    }
+}
+
 export async function GET() {
-    // List of static routes
-    const staticPages = [''] // Add your static pages here
+    // Define the type for URL entries
+    type UrlEntry = {
+        url: string
+        lastmod: string
+    }
 
     // Dynamically get blog post slugs from the file system
     const blogDir = path.join(process.cwd(), 'app/blog')
@@ -22,62 +55,43 @@ export async function GET() {
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => dirent.name)
 
-    // Helper function to get last modification time
-    const getLastModTime = (filePath: string): string => {
-        try {
-            const stats = fs.statSync(filePath)
-            return stats.mtime.toISOString()
-        } catch (error) {
-            // Fallback to current time if file doesn't exist or can't be read
-            return new Date().toISOString()
-        }
-    }
+    // Get last commit dates for static pages
+    const homePageDate = await getLastCommitDate('app/page.tsx')
 
-    // Get lastmod times for different types of pages
-    const staticPageUrls = staticPages.map((page) => {
-        const filePath = page === '' 
-            ? path.join(process.cwd(), 'app/page.tsx')
-            : path.join(process.cwd(), 'app', page, 'page.tsx')
-        return {
-            url: `${WEBSITE_URL}/${page}`,
-            lastmod: getLastModTime(filePath)
+    // List of static routes with their lastmod times
+    const staticPages: UrlEntry[] = [
+        {
+            url: `${WEBSITE_URL}/`,
+            lastmod: homePageDate
         }
-    })
+    ]
 
-    const blogUrls = blogSlugs.map((slug) => {
-        // Try to get the .mdx file first, fallback to page.tsx if not found
-        const mdxPath = path.join(blogDir, slug, 'page.mdx')
-        const tsxPath = path.join(blogDir, slug, 'page.tsx')
-        
-        let filePath = mdxPath
-        if (!fs.existsSync(mdxPath)) {
-            filePath = tsxPath
-        }
-        
-        return {
-            url: `${WEBSITE_URL}/blog/${slug}`,
-            lastmod: getLastModTime(filePath)
-        }
-    })
+    // Blog posts with their lastmod times
+    const blogPosts: UrlEntry[] = await Promise.all(
+        blogSlugs.map(async (slug) => {
+            const filePath = `app/blog/${slug}/page.mdx`
+            const lastmod = await getLastCommitDate(filePath)
+            return {
+                url: `${WEBSITE_URL}/blog/${slug}`,
+                lastmod
+            }
+        })
+    )
 
-    const caseStudyUrls = caseStudySlugs.map((slug) => {
-        // Try to get the .mdx file first, fallback to page.tsx if not found
-        const mdxPath = path.join(caseStudyDir, slug, 'page.mdx')
-        const tsxPath = path.join(caseStudyDir, slug, 'page.tsx')
-        
-        let filePath = mdxPath
-        if (!fs.existsSync(mdxPath)) {
-            filePath = tsxPath
-        }
-        
-        return {
-            url: `${WEBSITE_URL}/case-studies/${slug}`,
-            lastmod: getLastModTime(filePath)
-        }
-    })
+    // Case studies with their lastmod times
+    const caseStudies: UrlEntry[] = await Promise.all(
+        caseStudySlugs.map(async (slug) => {
+            const filePath = `app/case-studies/${slug}/page.mdx`
+            const lastmod = await getLastCommitDate(filePath)
+            return {
+                url: `${WEBSITE_URL}/case-studies/${slug}`,
+                lastmod
+            }
+        })
+    )
 
     // Combine all URLs
-    const allUrls = [...staticPageUrls, ...blogUrls, ...caseStudyUrls]
+    const allUrls = [...staticPages, ...blogPosts, ...caseStudies]
 
     // Generate XML
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
