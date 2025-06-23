@@ -1,26 +1,23 @@
 'use client'
-import { motion } from 'motion/react'
-import { XIcon } from 'lucide-react'
-import { Spotlight } from '@/components/ui/spotlight'
 import { Magnetic } from '@/components/ui/magnetic'
 import {
   MorphingDialog,
-  MorphingDialogTrigger,
-  MorphingDialogContent,
   MorphingDialogClose,
   MorphingDialogContainer,
+  MorphingDialogContent,
+  MorphingDialogTrigger,
 } from '@/components/ui/morphing-dialog'
-import Link from 'next/link'
-import { AnimatedBackground } from '@/components/ui/animated-background'
-import {
-  PROJECTS,
-  WORK_EXPERIENCE,
-  BLOG_POSTS,
-  EMAIL,
-  SOCIAL_LINKS,
-} from './data'
-import { useState } from 'react'
+import { Spotlight } from '@/components/ui/spotlight'
+import { XIcon } from 'lucide-react'
+import { motion } from 'motion/react'
+import { Fragment, useState } from 'react'
 import { CompactConnectForm } from './components/ui/compact-connect-form'
+import {
+  EMAIL,
+  PROJECTS,
+  SOCIAL_LINKS,
+  WORK_EXPERIENCE
+} from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -170,7 +167,7 @@ export default function Personal() {
       >
         <div className="flex-1">
           <p className="text-zinc-600 dark:text-zinc-400">
-            Building a better internet — crafting intuitive, performant web experiences from backend systems to polished UIs.
+            Freelance Full-Stack Developer — I design and ship robust web apps, smart contracts, and custom tools.
           </p>
         </div>
       </motion.section>
@@ -179,14 +176,14 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">Connect</h3>
+        <h3 className="mb-5 text-lg font-medium">📬 Let’s Work Together</h3>
         <p className="mb-5 text-zinc-600 dark:text-zinc-400">
           Let's build something together — from smart contract systems to full-stack dApps.
           Feel free to contact me at{' '}
           <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
             {EMAIL}
           </a>
-          or use the form below.
+          <Fragment>&nbsp;</Fragment>or use the form below.
         </p>
         <div className="flex flex-col space-y-4">
           <CompactConnectForm />
@@ -215,7 +212,7 @@ export default function Personal() {
                 <a
                   className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
                   href={project.link}
-                  target="_blank"
+                  {...(project.linkTab && { target: "_blank" })}
                 >
                   {project.name}
                   <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full"></span>

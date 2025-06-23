@@ -1,0 +1,54 @@
+export const metadata = {
+  title: 'FFreed – SDK & Demo App for Account Abstraction on Ethereum | Zubin Choudhary',
+  description:
+    "Let's build a better internet.",
+}
+
+<Cover
+  src="/assets/ffreed-image.jpg"
+  alt="Image from the movie Alien - from cosmos.com"
+  caption="FFreed Wallet"
+/>
+
+# 🧾 Case Study: FFreed – SDK & Demo App for Account Abstraction on Ethereum
+
+## 🛠 Problem
+
+Smart wallets and account abstraction (AA) are powerful concepts in Web3, yet their implementation can be daunting. My goal was to empower developers to build decentralized applications leveraging AA without grappling with the intricacies of the Ethereum mempool or the complexities of custom contract deployment.
+
+---
+
+
+## 💡 Solution
+
+I developed ffreed, a developer-friendly SDK designed to simplify AA integration. It offers:
+- Simple wrapper methods for batching transactions and setting up custom logic via ERC-4337.
+- Support for wallet-less onboarding through social and email logins.
+- Seamless integration with bundlers and paymasters under the hood.
+To showcase its capabilities, I also built a small demo dApp that allowed users to:
+- Create smart accounts.
+- Send batched transactions.
+- Interact with contracts without needing ETH for gas (via sponsored gas).
+
+---
+
+## ⚙️ Stack
+- SDK: TypeScript, ethers.js, bundler integration
+- Demo App: React + Next.js
+- Infra: Biconomy, custom paymaster, Alchemy APIs
+
+---
+
+## 🔍 Challenges & Learnings
+
+Building ffreed presented several hurdles and valuable lessons:
+- Maintaining paymaster reliability proved tricky due to high infrastructure costs, highlighting the economic considerations of running such services.
+- Account abstraction was (and still is, to some extent) an early-stage technology, meaning limited community standards and fewer established best practices were available.
+- Perhaps most significantly, a lack of dedicated outreach and marketing efforts severely limited ffreed's adoption. This, coupled with the broader slowdown in the Web3 market during that period, made it challenging to gain initial traction and community engagement.
+
+---
+
+## 📈 Outcome
+Despite the challenges in adoption, ffreed allowed me to:
+- Successfully build and document a working SDK with real developer utility in mind.
+- Gather valuable feedback from early users and ecosystem peers, which provided crucial insights into the evolving needs of the Web3 development landscape.

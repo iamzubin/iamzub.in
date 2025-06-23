@@ -2,6 +2,7 @@ type Project = {
   name: string
   description: string
   link: string
+  linkTab?: boolean
   media: string
   mediaType?: 'image' | 'video'
   id: string
@@ -35,14 +36,16 @@ export const PROJECTS: Project[] = [
       'Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders. ',
     link: 'https://holdem.iamzub.in',
     media:
-      '/assets/holdem.gif',
+      'https://holdem.iamzub.in/assets/herovideo.mp4',
     mediaType: 'image',
+    linkTab : true,
     id: 'project1',
   },
   {
     name: 'FFreed',
     description: 'Simplifying Ethereum account management with ERC-4337 and Smart Contract Wallets. Easy Web3 integration, gas sponsorship, and seamless user onboarding..',
-    link: 'https://x.com/ffreedwallet',
+    link: '/case-studies/ffreed',
+    linkTab : false,
     media:
     '/assets/ffreed-image.jpg',
     mediaType: 'image',
@@ -54,6 +57,7 @@ export const PROJECTS: Project[] = [
     link: 'https://github.com/iamzubin',
     media:
     '/assets/stubs.mp4',
+    linkTab : true,
     mediaType: 'video',
     id: 'project3',
   },
@@ -61,6 +65,7 @@ export const PROJECTS: Project[] = [
     name: 'Chain Speak',
     description: 'Conversational AI for seamless interactions with the Polygon ecosystem. Perform token transfers, swaps, staking, and cross-chain bridging effortlessly, making DeFi accessible to all.',
     link: 'https://github.com/iamzubin',
+    linkTab : true,
     media:
     '/assets/chain-speak.mp4',
     mediaType: 'video',
@@ -134,7 +139,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    label: 'Cal',
+    label: 'Calendar Booking',
     link: 'https://cal.com/iamzubin',
   },
   {

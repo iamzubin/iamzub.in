@@ -110,7 +110,6 @@ export function CompactConnectForm() {
                 <ArrowLeft className="h-3 w-3 mr-1" />
                 <span>Back</span>
               </Button>
-              <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Additional Details</h3>
             </div>
 
             <div className="space-y-3">
