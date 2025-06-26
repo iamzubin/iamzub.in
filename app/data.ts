@@ -36,7 +36,7 @@ export const PROJECTS: Project[] = [
     link: '/case-studies/stock-desk',
     linkTab : false,
     media:
-    '/assets/f3/ScreenShot4.png',
+    '/assets/F3/ScreenShot4.png',
     mediaType: 'video',
     id: 'project4',
   },
