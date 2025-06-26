@@ -31,15 +31,14 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
-    name: 'Holdem',
-    description:
-      'Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders. ',
-    link: 'https://holdem.iamzub.in',
+    name: 'StockDesk',
+    description: ' A lightweight internal tool tailored for a multi-store furniture brand to check live stock, book items, and prevent double sales—built for clarity, speed, and on-ground usability.',
+    link: '/case-studies/stock-desk',
+    linkTab : false,
     media:
-      'https://holdem.iamzub.in/assets/herovideo.mp4',
-    mediaType: 'image',
-    linkTab : true,
-    id: 'project1',
+    '/assets/f3/ScreenShot4.png',
+    mediaType: 'video',
+    id: 'project4',
   },
   {
     name: 'FFreed',
@@ -52,6 +51,17 @@ export const PROJECTS: Project[] = [
     id: 'project2',
   },
   {
+    name: 'Holdem',
+    description:
+      'Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders. ',
+    link: 'https://holdem.iamzub.in',
+    media:
+      'https://holdem.iamzub.in/assets/herovideo.mp4',
+    mediaType: 'image',
+    linkTab : true,
+    id: 'project1',
+  },
+  {
     name: 'Stubs',
     description: 'A creative page-builder that empowers creators to craft personalized websites with Web3 elements, like NFT showcases and blockchain integration.',
     link: 'https://github.com/iamzubin',
@@ -60,17 +70,7 @@ export const PROJECTS: Project[] = [
     linkTab : true,
     mediaType: 'video',
     id: 'project3',
-  },
-  {
-    name: 'Chain Speak',
-    description: 'Conversational AI for seamless interactions with the Polygon ecosystem. Perform token transfers, swaps, staking, and cross-chain bridging effortlessly, making DeFi accessible to all.',
-    link: 'https://github.com/iamzubin',
-    linkTab : true,
-    media:
-    '/assets/chain-speak.mp4',
-    mediaType: 'video',
-    id: 'project4',
-  },
+  }
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
@@ -139,7 +139,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    label: 'Calendar Booking',
+    label: 'Calendar',
     link: 'https://cal.com/iamzubin',
   },
   {

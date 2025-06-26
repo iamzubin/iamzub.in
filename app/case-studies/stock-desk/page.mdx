@@ -1,0 +1,71 @@
+import { CaseStudyCarousel } from '@/components/ui/case-study-carousel'
+
+export const metadata = {
+  title: 'Case Study: Stock Desk – Internal Stock Lookup System | Zubin Choudhary',
+  description:
+    "A case study on building an internal stock lookup and booking system for a multi-store furniture brand to solve stock coordination issues.",
+  openGraph: {
+    images: [
+      {
+        url: '/assets/f3/ScreenShot4.png',
+        width: 1200,
+        height: 630,
+        alt: 'StockDesk - Internal Stock Lookup System',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/assets/f3/ScreenShot4.png'],
+  },
+}
+
+<CaseStudyCarousel images={[
+    '/assets/F3/ScreenShot4.png',
+    '/assets/F3/ScreenShot3.png',
+    '/assets/F3/ScreenShot2.png',
+    '/assets/F3/ScreenShot1.png',
+]} />
+
+# 🧾 Case Study: Internal Stock Lookup and Booking System for Furniture Chain
+
+## 🛠 Problem
+A growing furniture brand with multiple retail stores was struggling with chaotic stock coordination.
+Sales reps were:
+
+- Constantly calling each other or factory staff to check item availability
+- Managing a shared Google Sheet linked to an ERP system — which was slow, error-prone, and often outdated
+- Avoiding the ERP entirely because it was too complex for most frontline staff
+
+This led to booking delays, double-sales, and frustrated customers.
+
+---
+
+## 💡 Solution
+I built a lightweight web-based internal tool tailored to their actual workflow. Store managers and reps could:
+
+- 🔍 Search stock in real-time by model, size, color, etc.
+- ✅ Instantly mark items as "sold" to block them from other stores
+- 📦 Book orders with customer details & auto-generate a backend log
+
+Only one backend staff member now needed to maintain the ERP — the rest just used the web UI, which synced with ERP in the background.
+
+The system included login-based access and simple role separation between sales and factory dispatch.
+
+---
+
+## ⚙️ Stack
+- React + Tailwind (frontend)
+- Node.js + Express (backend)
+- MongoDB for fast querying
+- Hosted on Render for instant deployments
+
+---
+
+## 📈 Outcome
+- 🔻 Reduced booking errors by 90%
+- ⚡ Sales reps closed in-store sales faster with accurate stock visibility
+- 🧾 Factory team had an organized booking log without chasing updates
+
+## 🔍 Why It Worked
+This wasn’t just about tech — it was about adapting to how Indian retail teams actually work. By building a simple interface over a complex ERP, we made the system usable for non-technical staff and let the business scale without adding operational chaos.
