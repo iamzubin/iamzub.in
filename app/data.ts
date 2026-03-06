@@ -75,20 +75,20 @@ export const PROJECTS: Project[] = [
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    company: 'FFREED',
-    title: 'Founder',
-    start: 'May 2024',
-    end: 'Present',
-    link: 'https://x.com/ffreedwallet/',
-    id: 'work1',
-  },
-  {
     company: 'Freelance + Open Source',
     title: 'Software Developer',
     start: '2024',
     end: 'Present',
     link: 'https://github.com/iamzubin',
     id: 'work2',
+  },
+  {
+    company: 'FFREED',
+    title: 'Founder',
+    start: 'May 2024',
+    end: 'Dec 2025',
+    link: 'https://x.com/ffreedwallet/',
+    id: 'work1',
   },
   {
     company: 'Stubs',
