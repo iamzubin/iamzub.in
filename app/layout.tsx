@@ -1,28 +1,22 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { Header } from './header'
-import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from 'sonner'
+import { Footer } from './footer'
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: '#09090b',
 }
 
 export const metadata: Metadata = {
-  title: 'Zubin Choudhary',
+  title: 'Zubin Choudhary // SYSTEM_UPLINK',
   description:
-    "Let's build a better internet.",
+    "Software Engineer specializing in dApps, Smart Contracts, and Technical Design.",
 }
-
-const geist = Geist({
-  variable: '--font-geist',
-  subsets: ['latin'],
-})
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
@@ -35,23 +29,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark">
       <body
-        className={`${geist.variable} ${geistMono.variable} bg-white tracking-tight antialiased dark:bg-zinc-950`}
+        className={`${geistMono.variable} font-mono bg-zinc-950 text-zinc-100 antialiased grid-bg min-h-screen selection:bg-green-500/30 selection:text-green-200`}
       >
         <Analytics />
         <ThemeProvider
           enableSystem={true}
           attribute="class"
           storageKey="theme"
-          defaultTheme="system"
+          defaultTheme="dark"
+          forcedTheme="dark"
         >
-          <div className="flex min-h-screen w-full flex-col font-[family-name:var(--font-inter-tight)]">
-            <div className="relative mx-auto w-full max-w-screen-sm flex-1 px-4 pt-20">
-              <Header />
-              {children}
-              <Footer />
-            </div>
+          <div className="relative mx-auto w-full max-w-screen-xl px-4 py-8 md:py-16">
+            {children}
+            <Footer />
           </div>
           <Toaster richColors closeButton position="top-center" />
         </ThemeProvider>

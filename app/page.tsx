@@ -1,5 +1,4 @@
 'use client'
-import { Magnetic } from '@/components/ui/magnetic'
 import {
   MorphingDialog,
   MorphingDialogClose,
@@ -8,9 +7,9 @@ import {
   MorphingDialogTrigger,
 } from '@/components/ui/morphing-dialog'
 import { Spotlight } from '@/components/ui/spotlight'
-import { XIcon } from 'lucide-react'
+import { XIcon, Terminal, Activity, Cpu, Shield, Globe, Mail, Code } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { CompactConnectForm } from './components/ui/compact-connect-form'
 import {
   EMAIL,
@@ -24,25 +23,52 @@ const VARIANTS_CONTAINER = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.1,
     },
   },
 }
 
 const VARIANTS_SECTION = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(8px)' },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+  hidden: { opacity: 0, scale: 0.98, filter: 'blur(4px)' },
+  visible: { opacity: 1, scale: 1, filter: 'blur(0px)' },
 }
 
-const TRANSITION_SECTION = {
-  duration: 0.3,
+function TechnicalHeader({ title, label }: { title: string; label?: string }) {
+  return (
+    <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/50 px-3 py-1.5">
+      <div className="flex items-center gap-2">
+        <Terminal className="h-3.5 w-3.5 text-zinc-500" />
+        <span className="text-[10px] font-bold tracking-widest text-zinc-300 uppercase">{title}</span>
+      </div>
+      {label && (
+        <span className="text-[10px] text-zinc-500 font-mono italic">[{label}]</span>
+      )}
+    </div>
+  )
 }
 
-type ProjectMediaProps = {
-  src: string
+function Module({ children, title, label, className = "" }: { children: React.ReactNode; title: string; label?: string; className?: string }) {
+  return (
+    <motion.div
+      variants={VARIANTS_SECTION}
+      className={`technical-border overflow-hidden bg-zinc-950/20 backdrop-blur-sm ${className}`}
+    >
+      <TechnicalHeader title={title} label={label} />
+      <div className="p-4">{children}</div>
+    </motion.div>
+  )
 }
 
-function ProjectMedia({ src }: ProjectMediaProps) {
+function StatusIndicator({ label, value, color = "text-green-500" }: { label: string; value: string; color?: string }) {
+  return (
+    <div className="flex items-center justify-between text-[10px] font-mono border-b border-zinc-800/50 py-1 last:border-0">
+      <span className="text-zinc-500">{label}</span>
+      <span className={color}>{value}</span>
+    </div>
+  )
+}
+
+function ProjectMedia({ src }: { src: string }) {
   const isVideo = src.endsWith('.mp4') || src.endsWith('.webm') || src.indexOf('cloudinary') !== -1;
   const isImage = src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.gif') || src.endsWith('.webp');
 
@@ -62,22 +88,22 @@ function ProjectMedia({ src }: ProjectMediaProps) {
             loop
             muted
             playsInline
-            className="aspect-video w-full cursor-zoom-in rounded-xl"
+            className="aspect-video w-full cursor-zoom-in rounded-sm object-cover grayscale hover:grayscale-0 transition-all duration-500"
           />
         ) : isImage ? (
           <img
             src={src}
             alt="Project screenshot"
-            className="aspect-video w-full cursor-zoom-in rounded-xl object-cover"
+            className="aspect-video w-full cursor-zoom-in rounded-sm object-cover grayscale hover:grayscale-0 transition-all duration-500"
           />
         ) : (
-          <div className="aspect-video w-full rounded-xl bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
-            No media available
+          <div className="aspect-video w-full rounded-sm bg-zinc-900 flex items-center justify-center">
+            <Activity className="h-6 w-6 text-zinc-700 animate-pulse" />
           </div>
         )}
       </MorphingDialogTrigger>
       <MorphingDialogContainer>
-        <MorphingDialogContent className="relative aspect-video rounded-2xl bg-zinc-50 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950 dark:ring-zinc-800/50">
+        <MorphingDialogContent className="relative aspect-video rounded-none bg-zinc-950 p-1 ring-1 ring-zinc-800">
           {isVideo ? (
             <video
               src={src}
@@ -85,222 +111,197 @@ function ProjectMedia({ src }: ProjectMediaProps) {
               loop
               muted
               playsInline
-              className="aspect-video h-[50vh] w-full rounded-xl md:h-[70vh]"
+              className="aspect-video h-[50vh] w-full md:h-[70vh]"
             />
           ) : isImage ? (
             <img
               src={src}
               alt="Project screenshot"
-              className="aspect-video h-[50vh] w-full rounded-xl object-contain md:h-[70vh]"
+              className="aspect-video h-[50vh] w-full object-contain md:h-[70vh]"
             />
           ) : (
-            <div className="aspect-video h-[50vh] w-full rounded-xl bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center md:h-[70vh]">
+            <div className="aspect-video h-[50vh] w-full bg-zinc-900 flex items-center justify-center md:h-[70vh]">
               No media available
             </div>
           )}
         </MorphingDialogContent>
         <MorphingDialogClose
-          className="fixed top-6 right-6 h-fit w-fit rounded-full bg-white p-1"
-          variants={{
-            initial: { opacity: 0 },
-            animate: {
-              opacity: 1,
-              transition: { delay: 0.3, duration: 0.1 },
-            },
-            exit: { opacity: 0, transition: { duration: 0 } },
-          }}
+          className="fixed top-6 right-6 h-fit w-fit rounded-none bg-zinc-900 border border-zinc-800 p-2"
         >
-          <XIcon className="h-5 w-5 text-zinc-500" />
+          <XIcon className="h-5 w-5 text-zinc-300" />
         </MorphingDialogClose>
       </MorphingDialogContainer>
     </MorphingDialog>
   )
 }
 
-function MagneticSocialLink({
-  children,
-  link,
-}: {
-  children: React.ReactNode
-  link: string
-}) {
-  return (
-    <Magnetic springOptions={{ bounce: 0 }} intensity={0.3}>
-      <a
-        href={link}
-        target='_black'
-        className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full bg-zinc-100 px-2.5 py-1 text-sm text-black transition-colors duration-200 hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
-      >
-        {children}
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-3 w-3"
-        >
-          <path
-            d="M3.64645 11.3536C3.45118 11.1583 3.45118 10.8417 3.64645 10.6465L10.2929 4L6 4C5.72386 4 5.5 3.77614 5.5 3.5C5.5 3.22386 5.72386 3 6 3L11.5 3C11.6326 3 11.7598 3.05268 11.8536 3.14645C11.9473 3.24022 12 3.36739 12 3.5L12 9.00001C12 9.27615 11.7761 9.50001 11.5 9.50001C11.2239 9.50001 11 9.27615 11 9.00001V4.70711L4.35355 11.3536C4.15829 11.5488 3.84171 11.5488 3.64645 11.3536Z"
-            fill="currentColor"
-            fillRule="evenodd"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-      </a>
-    </Magnetic>
-  )
-}
-
 export default function Personal() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [time, setTime] = useState('')
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleTimeString())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <motion.main
-      className="space-y-24"
+      className="grid grid-cols-1 md:grid-cols-12 gap-4 font-mono pb-20"
       variants={VARIANTS_CONTAINER}
       initial="hidden"
       animate="visible"
     >
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <div className="flex-1">
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Freelance Full-Stack Developer — I design and ship robust web apps, smart contracts, and custom tools.
-          </p>
-        </div>
-      </motion.section>
+      {/* SCANLINES OVERLAY */}
+      <div className="scanlines opacity-[0.03] pointer-events-none" />
 
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-5 text-lg font-medium">📬 Let’s Work Together</h3>
-        <p className="mb-5 text-zinc-600 dark:text-zinc-400">
-          Let's build something together — from smart contract systems to full-stack dApps.
-          Feel free to contact me at{' '}
-          <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
-            {EMAIL}
-          </a>
-          <Fragment>&nbsp;</Fragment>or use the form below.
-        </p>
-        <div className="flex flex-col space-y-4">
-          <CompactConnectForm />
-          <div className="flex items-center justify-start space-x-3">
-            {SOCIAL_LINKS.map((link) => (
-              <MagneticSocialLink key={link.label} link={link.link}>
-                {link.label}
-              </MagneticSocialLink>
-            ))}
+      {/* TOP HEADER MODULE */}
+      <Module title="SYSTEM_STATUS" className="md:col-span-12" label="v2.0.4b">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:grid grid-cols-3 grid-rows-3 gap-0.5 w-9 h-9 opacity-80">
+              {[...Array(9)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`w-full h-full ${[0, 1, 2, 4, 6, 8].includes(i) ? 'bg-zinc-100' : 'bg-transparent'} ${[1, 4, 7].includes(i) ? 'animate-pulse' : ''}`}
+                  style={{ animationDelay: `${i * 150}ms` }}
+                />
+              ))}
+            </div>
+            <div className="space-y-1">
+              <motion.h1 
+                className="text-xl font-bold tracking-tighter uppercase text-zinc-100"
+                animate={{
+                  textShadow: [
+                    "0px 0px 0px rgba(0,255,0,0)",
+                    "2px 0px 0px rgba(0,255,0,0.5)",
+                    "-2px 0px 0px rgba(255,0,0,0.5)",
+                    "0px 0px 0px rgba(0,255,0,0)"
+                  ],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                  times: [0, 0.02, 0.04, 0.06]
+                }}
+              >
+                Zubin Choudhary <span className="text-zinc-500 font-normal">/ Software Engineer</span>
+              </motion.h1>
+              <p className="text-sm text-zinc-400 max-w-2xl leading-relaxed">
+                Freelance Full-Stack Developer — Specializing in robust web apps, smart contracts, and custom internal tools. Bridge between logic and aesthetics.
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-1 gap-x-8 gap-y-1 min-w-[150px]">
+            <StatusIndicator label="LOCATION" value="IN_PUN" />
+            <StatusIndicator label="TIME" value={time} />
+            <StatusIndicator label="STATUS" value="AVAIL_FOR_HIRE" color="text-yellow-500 animate-pulse" />
+            <StatusIndicator label="UPLINK" value="ENCRYPTED" />
           </div>
         </div>
-      </motion.section>
+      </Module>
 
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-5 text-lg font-medium">Projects</h3>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {PROJECTS.map((project) => (
-            <div key={project.name} className="space-y-2">
-              <div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
-                <ProjectMedia src={project.media} />
-              </div>
-              <div className="px-1">
-                <a
-                  className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
-                  href={project.link}
-                  {...(project.linkTab && { target: "_blank" })}
-                >
-                  {project.name}
-                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full"></span>
-                </a>
-                <p className="text-base text-zinc-600 dark:text-zinc-400">
-                  {project.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.section>
-
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
-        <div className="flex flex-col space-y-2">
-          {WORK_EXPERIENCE.map((job) => (
-            <a
-              className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
-              href={job.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={job.id}
-            >
-              <Spotlight
-                className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
-                size={64}
-              />
-              <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
-                <div className="relative flex w-full flex-row justify-between">
-                  <div>
-                    <h4 className="font-normal dark:text-zinc-100">
-                      {job.title}
-                    </h4>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      {job.company}
-                    </p>
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    {job.start} - {job.end}
-                  </p>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </motion.section>
-
-      {/* <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-3 text-lg font-medium">Accomplishments</h3>
-        <div className="flex flex-col space-y-0">
-          <AnimatedBackground
-            enableHover
-            className="h-full w-full rounded-lg bg-zinc-100 dark:bg-zinc-900/80"
-            transition={{
-              type: 'spring',
-              bounce: 0,
-              duration: 0.2,
-            }}
-          >
-            {BLOG_POSTS.map((post) => (
-              <Link
-                key={post.uid}
-                className="-mx-3 rounded-xl px-3 py-3"
-                href={post.link}
-                data-id={post.uid}
+      {/* LEFT COLUMN */}
+      <div className="md:col-span-4 space-y-4">
+        <Module title="EXPERIENCE_LOG">
+          <div className="space-y-4">
+            {WORK_EXPERIENCE.map((job) => (
+              <a
+                key={job.id}
+                href={job.link}
+                target="_blank"
+                className="group block relative p-3 border border-zinc-800/50 hover:bg-zinc-900/50 transition-colors"
               >
-                <div className="flex flex-col space-y-1">
-                  <h4 className="font-normal dark:text-zinc-100">
-                    {post.title}
-                  </h4>
-                  <p className="text-zinc-500 dark:text-zinc-400">
-                    {post.description}
+                <div className="flex justify-between items-start mb-1">
+                  <h4 className="text-xs font-bold text-zinc-200 uppercase group-hover:text-green-500 transition-colors">{job.title}</h4>
+                  <span className="text-[9px] text-zinc-600">{job.start} - {job.end}</span>
+                </div>
+                <p className="text-[11px] text-zinc-500">{job.company}</p>
+                <div className="absolute top-0 right-0 w-1 h-0 bg-green-500 group-hover:h-full transition-all duration-300" />
+              </a>
+            ))}
+          </div>
+        </Module>
+
+        <Module title="SYSTEM_CAPS">
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { icon: Code, label: "React/Next.js" },
+              { icon: Shield, label: "Solidity/EVM" },
+              { icon: Globe, label: "Node.js/Go" },
+              { icon: Cpu, label: "TypeScript" },
+            ].map((cap, i) => (
+              <div key={i} className="flex items-center gap-2 p-2 border border-zinc-900 bg-zinc-900/20">
+                <cap.icon className="h-3 w-3 text-zinc-600" />
+                <span className="text-[10px] text-zinc-400 uppercase tracking-tight">{cap.label}</span>
+              </div>
+            ))}
+          </div>
+        </Module>
+
+        <Module title="UPLINK_CHANNELS">
+          <div className="flex flex-wrap gap-2">
+            {SOCIAL_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.link}
+                target="_blank"
+                className="text-[10px] uppercase font-bold px-2 py-1 bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-zinc-100 hover:border-zinc-500 transition-all"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </Module>
+      </div>
+
+      {/* RIGHT COLUMN */}
+      <div className="md:col-span-8 space-y-4">
+        <Module title="PROJECT_REGISTRY" label="ACTIVE_DEPLOYMENTS">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {PROJECTS.map((project) => (
+              <div key={project.id} className="group flex flex-col border border-zinc-800/50 bg-zinc-900/10 hover:border-zinc-700 transition-colors">
+                <div className="relative aspect-video overflow-hidden border-b border-zinc-800">
+                  <ProjectMedia src={project.media} />
+                  <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-black/80 border border-zinc-800 text-[8px] text-zinc-500 uppercase tracking-widest backdrop-blur-md">
+                    SRC_{project.mediaType}
+                  </div>
+                </div>
+                <div className="p-3 space-y-2">
+                  <a
+                    href={project.link}
+                    target={project.linkTab ? "_blank" : "_self"}
+                    className="text-xs font-bold text-zinc-200 uppercase flex items-center justify-between group-hover:text-green-500 transition-colors"
+                  >
+                    {project.name}
+                    <Activity className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-2">
+                    {project.description}
                   </p>
                 </div>
-              </Link>
+              </div>
             ))}
-          </AnimatedBackground>
-        </div>
-      </motion.section> */}
+          </div>
+        </Module>
 
+        <Module title="TERMINAL_MSG" label="CONNECT">
+          <div className="space-y-4">
+            <p className="text-xs text-zinc-400 leading-relaxed border-l-2 border-zinc-800 pl-3 py-1">
+              Initiate contact for collaborative engineering, system architecture, or full-stack dApp development.
+              Awaiting transmission...
+            </p>
+            <div className="bg-zinc-950 p-2 border border-zinc-900">
+               <CompactConnectForm />
+            </div>
+          </div>
+        </Module>
+      </div>
+
+      <div className="md:col-span-12">
+        <div className="halftone h-12 w-full opacity-[0.05] mt-10" />
+      </div>
     </motion.main>
   )
 }

@@ -74,14 +74,14 @@ export function CompactConnectForm() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               required
               disabled={isSubmitting}
-              className="flex-1 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-zinc-400 dark:focus:ring-zinc-400"
+              className="flex-1 rounded-sm border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
             />
             <div className="flex items-center">
-              <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
+              <div className="h-4 w-px bg-zinc-800" />
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative inline-flex items-center gap-1 rounded-xl bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                className="group relative inline-flex items-center gap-1 rounded-sm bg-zinc-100 px-3 py-1.5 text-sm font-bold text-zinc-950 transition-colors hover:bg-zinc-200"
               >
                 {isSubmitting ? "Sending..." : "Connect"}
               </Button>
@@ -89,7 +89,7 @@ export function CompactConnectForm() {
                 type="button"
                 variant="ghost"
                 disabled={isSubmitting}
-                className="group relative inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                className="group relative inline-flex items-center gap-1 rounded-sm px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
                 onClick={() => setIsExpanded(true)}
               >
                 <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
@@ -104,7 +104,7 @@ export function CompactConnectForm() {
                 type="button"
                 variant="ghost"
                 disabled={isSubmitting}
-                className="rounded-xl px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                className="rounded-sm px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
                 onClick={() => setIsExpanded(false)}
               >
                 <ArrowLeft className="h-3 w-3 mr-1" />
@@ -114,7 +114,7 @@ export function CompactConnectForm() {
 
             <div className="space-y-3">
               <div className="space-y-1">
-                <Label htmlFor="email" className="text-xs text-zinc-600 dark:text-zinc-400">
+                <Label htmlFor="email" className="text-[10px] uppercase font-bold text-zinc-500">
                   Email
                 </Label>
                 <Input
@@ -125,12 +125,12 @@ export function CompactConnectForm() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                   required
                   disabled={isSubmitting}
-                  className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-zinc-400 dark:focus:ring-zinc-400"
+                  className="rounded-sm border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="name" className="text-xs text-zinc-600 dark:text-zinc-400">
+                <Label htmlFor="name" className="text-[10px] uppercase font-bold text-zinc-500">
                   Name
                 </Label>
                 <Input
@@ -139,12 +139,12 @@ export function CompactConnectForm() {
                   value={name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                   disabled={isSubmitting}
-                  className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-zinc-400 dark:focus:ring-zinc-400"
+                  className="rounded-sm border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="message" className="text-xs text-zinc-600 dark:text-zinc-400">
+                <Label htmlFor="message" className="text-[10px] uppercase font-bold text-zinc-500">
                   Message
                 </Label>
                 <Textarea
@@ -153,7 +153,7 @@ export function CompactConnectForm() {
                   value={message}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                   disabled={isSubmitting}
-                  className="min-h-[80px] rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-zinc-400 dark:focus:ring-zinc-400"
+                  className="min-h-[80px] rounded-sm border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-sm text-zinc-100 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
             </div>
@@ -161,7 +161,7 @@ export function CompactConnectForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-xl bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="w-full rounded-sm bg-zinc-100 px-3 py-1.5 text-sm font-bold text-zinc-950 transition-colors hover:bg-zinc-200"
             >
               {isSubmitting ? "Sending..." : "Send"}
             </Button>
