@@ -2,20 +2,75 @@
 @plugin '@tailwindcss/typography';
 @custom-variant dark (&:is(.dark *));
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+@theme {
+  --color-notebook-bg: #f8f8f6;
+  --color-notebook-grid: rgba(0, 100, 255, 0.07);
+  --color-notebook-margin: rgba(255, 50, 50, 0.15);
+  
+  /* Refined Fumayo Palette */
+  --color-fumayo-green: #2d6a4f;
+  --color-fumayo-yellow: #f9d423;
+  --color-fumayo-blue: #3a86ff;
+  --color-fumayo-red: #e63946;
+  
+  /* Dark Mode - Ink & Blueprint */
+  --color-dark-bg: #0a0a0c;
+  --color-dark-card: #121214;
+  --color-dark-border: #222226;
+  --color-dark-text: #e0e0e6;
+  --color-dark-muted: #666670;
+  --color-dark-grid: rgba(100, 150, 255, 0.04);
+  
+  --font-gaegu: var(--font-gaegu);
+  --font-serif: var(--font-eb-garamond);
+}
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    @apply border-[#1a1a1a] dark:border-zinc-800;
+  }
+
+  body {
+    @apply bg-notebook-bg text-[#1a1a1a] dark:bg-dark-bg dark:text-dark-text antialiased;
+  }
+}
+
+@layer utilities {
+  .bg-notebook {
+    background-image: 
+      linear-gradient(var(--color-notebook-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-notebook-grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .dark .bg-notebook {
+    background-image: 
+      linear-gradient(var(--color-dark-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-dark-grid) 1px, transparent 1px);
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .dark .bg-noise {
+    opacity: 0.06;
+  }
+
+  /* Red Margin Line Utility */
+  .notebook-margins::before {
+    content: '';
+    @apply fixed inset-y-0 left-[max(20px,calc(50vw-600px))] w-px bg-notebook-margin dark:bg-red-500/10 z-0;
+  }
+  
+  .notebook-margins::after {
+    content: '';
+    @apply fixed inset-y-0 left-[max(32px,calc(50vw-588px))] w-px bg-notebook-margin dark:bg-red-500/10 z-0;
   }
 }
