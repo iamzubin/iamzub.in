@@ -31,52 +31,41 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
-    name: 'StockDesk',
-    description: ' A lightweight internal tool tailored for a multi-store furniture brand to check live stock, book items, and prevent double sales—built for clarity, speed, and on-ground usability.',
-    link: '/case-studies/stock-desk',
-    linkTab : false,
-    media:
-    '/assets/F3/ScreenShot4.png',
-    mediaType: 'video',
-    id: 'project4',
+    name: 'Holdem',
+    description:
+      'A Tauri desktop utility for smoother file workflows, designed, shipped, and grown as an open-source product.',
+    link: '/case-studies/holdem',
+    media: '/assets/holdem.gif',
+    mediaType: 'image',
+    linkTab: false,
+    id: 'project1',
   },
   {
-    name: 'FFreed',
-    description: 'Simplifying Ethereum account management with ERC-4337 and Smart Contract Wallets. Easy Web3 integration, gas sponsorship, and seamless user onboarding..',
+    name: 'Burner Wallet',
+    description:
+      'A web interface for Burner NFC hardware wallets—tap-to-sign transactions with WalletConnect integration and no seed phrases.',
     link: '/case-studies/ffreed',
-    linkTab : false,
-    media:
-    '/assets/ffreed-image.jpg',
+    linkTab: false,
+    media: '/assets/ffreed-image.jpg',
     mediaType: 'image',
     id: 'project2',
   },
   {
-    name: 'Holdem',
+    name: 'StockDesk',
     description:
-      'Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders. ',
-    link: 'https://holdem.iamzub.in',
-    media:
-      'https://holdem.iamzub.in/assets/herovideo.mp4',
-    mediaType: 'image',
-    linkTab : true,
-    id: 'project1',
-  },
-  {
-    name: 'Stubs',
-    description: 'A creative page-builder that empowers creators to craft personalized websites with Web3 elements, like NFT showcases and blockchain integration.',
-    link: 'https://github.com/iamzubin',
-    media:
-    '/assets/stubs.mp4',
-    linkTab : true,
+      'An internal product for a furniture retailer that simplified live stock checks and booking workflows to reduce operational friction on the ground.',
+    link: '/case-studies/stock-desk',
+    linkTab: false,
+    media: '/assets/F3/ScreenShot4.png',
     mediaType: 'video',
-    id: 'project3',
-  }
+    id: 'project4',
+  },
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    company: 'Freelance + Open Source',
-    title: 'Software Developer',
+    company: 'Contract + Open Source',
+    title: 'Contract Product Engineer',
     start: '2024',
     end: 'Present',
     link: 'https://github.com/iamzubin',
@@ -84,7 +73,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   },
   {
     company: 'FFREED',
-    title: 'Founder',
+    title: 'Built ERC-4337 SDK & Demo App',
     start: 'May 2024',
     end: 'Dec 2025',
     link: 'https://x.com/ffreedwallet/',
@@ -92,7 +81,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   },
   {
     company: 'Stubs',
-    title: 'Smart Contract + Frontend Developer',
+    title: 'Smart Contract Systems & Web3 Frontend',
     start: '2022',
     end: '2023',
     link: 'https://x.com/StubsWorldHQ',
@@ -100,7 +89,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   },
   {
     company: 'Sublime Finance',
-    title: 'Frontend + Solidity Developer',
+    title: 'DeFi Frontend & Solidity',
     start: '2021',
     end: '2022',
     link: 'https://x.com/sublimefinance',

@@ -7,17 +7,9 @@ import {
   MorphingDialogContent,
   MorphingDialogTrigger,
 } from '@/components/ui/morphing-dialog'
-import { Spotlight } from '@/components/ui/spotlight'
 import { XIcon } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Fragment, useState } from 'react'
-import { CompactConnectForm } from './components/ui/compact-connect-form'
-import {
-  EMAIL,
-  PROJECTS,
-  SOCIAL_LINKS,
-  WORK_EXPERIENCE
-} from './data'
+import { EMAIL, PROJECTS, SOCIAL_LINKS } from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -43,8 +35,16 @@ type ProjectMediaProps = {
 }
 
 function ProjectMedia({ src }: ProjectMediaProps) {
-  const isVideo = src.endsWith('.mp4') || src.endsWith('.webm') || src.indexOf('cloudinary') !== -1;
-  const isImage = src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.gif') || src.endsWith('.webp');
+  const isVideo =
+    src.endsWith('.mp4') ||
+    src.endsWith('.webm') ||
+    src.indexOf('cloudinary') !== -1
+  const isImage =
+    src.endsWith('.jpg') ||
+    src.endsWith('.jpeg') ||
+    src.endsWith('.png') ||
+    src.endsWith('.gif') ||
+    src.endsWith('.webp')
 
   return (
     <MorphingDialog
@@ -71,7 +71,7 @@ function ProjectMedia({ src }: ProjectMediaProps) {
             className="aspect-video w-full cursor-zoom-in rounded-xl object-cover"
           />
         ) : (
-          <div className="aspect-video w-full rounded-xl bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
+          <div className="flex aspect-video w-full items-center justify-center rounded-xl bg-zinc-200 dark:bg-zinc-800">
             No media available
           </div>
         )}
@@ -94,7 +94,7 @@ function ProjectMedia({ src }: ProjectMediaProps) {
               className="aspect-video h-[50vh] w-full rounded-xl object-contain md:h-[70vh]"
             />
           ) : (
-            <div className="aspect-video h-[50vh] w-full rounded-xl bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center md:h-[70vh]">
+            <div className="flex aspect-video h-[50vh] w-full items-center justify-center rounded-xl bg-zinc-200 md:h-[70vh] dark:bg-zinc-800">
               No media available
             </div>
           )}
@@ -128,7 +128,7 @@ function MagneticSocialLink({
     <Magnetic springOptions={{ bounce: 0 }} intensity={0.3}>
       <a
         href={link}
-        target='_black'
+        target="_black"
         className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full bg-zinc-100 px-2.5 py-1 text-sm text-black transition-colors duration-200 hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
       >
         {children}
@@ -153,56 +153,130 @@ function MagneticSocialLink({
 }
 
 export default function Personal() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-
   return (
     <motion.main
-      className="space-y-24"
+      className="space-y-20"
       variants={VARIANTS_CONTAINER}
       initial="hidden"
       animate="visible"
     >
+      {/* Hero */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
+        className="space-y-6"
       >
-        <div className="flex-1">
+        <div className="flex-1 space-y-4">
+          <h1 className="text-2xl font-medium text-zinc-900 dark:text-zinc-50">
+            I ship hard-to-ship product features.
+          </h1>
           <p className="text-zinc-600 dark:text-zinc-400">
-            Freelance Full-Stack Developer — I design and ship robust web apps, smart contracts, and custom tools.
+            I work with startups and product teams on important technical work
+            that spans too many systems for a simple handoff: complex
+            integrations, backend-heavy features, desktop apps, and specialized
+            systems work including Web3 when relevant.
           </p>
         </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href="#selected-work"
+            className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          >
+            See selected work
+          </a>
+          <a
+            href="https://cal.com/iamzubin"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:hover:bg-zinc-900"
+          >
+            Book a scoping call
+          </a>
+        </div>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Tauri desktop product with 130 GitHub stars • ERC-4337 SDK + demo app
+          • GSoC alumnus • Commercial internal-tool delivery
+        </p>
       </motion.section>
 
+      {/* What teams bring me in for */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">📬 Let’s Work Together</h3>
-        <p className="mb-5 text-zinc-600 dark:text-zinc-400">
-          Let's build something together — from smart contract systems to full-stack dApps.
-          Feel free to contact me at{' '}
-          <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
-            {EMAIL}
-          </a>
-          <Fragment>&nbsp;</Fragment>or use the form below.
-        </p>
-        <div className="flex flex-col space-y-4">
-          <CompactConnectForm />
-          <div className="flex items-center justify-start space-x-3">
-            {SOCIAL_LINKS.map((link) => (
-              <MagneticSocialLink key={link.label} link={link.link}>
-                {link.label}
-              </MagneticSocialLink>
-            ))}
+        <h3 className="mb-5 text-lg font-medium">What teams bring me in for</h3>
+        <ul className="space-y-3 text-zinc-600 dark:text-zinc-400">
+          <li className="flex items-start gap-3">
+            <span className="text-zinc-400">•</span>
+            <span>
+              A feature that keeps slipping because it touches too many systems.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="text-zinc-400">•</span>
+            <span>
+              A tricky integration that needs careful implementation, not glue
+              code.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="text-zinc-400">•</span>
+            <span>
+              A backend-heavy product slice that needs end-to-end ownership.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="text-zinc-400">•</span>
+            <span>
+              A short sprint to de-risk an important technical decision.
+            </span>
+          </li>
+        </ul>
+      </motion.section>
+
+      {/* Engagements */}
+      <motion.section
+        variants={VARIANTS_SECTION}
+        transition={TRANSITION_SECTION}
+      >
+        <h3 className="mb-5 text-lg font-medium">Engagements</h3>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl bg-zinc-50 p-4 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950 dark:ring-zinc-800/50">
+            <h4 className="font-medium text-zinc-900 dark:text-zinc-50">
+              Spike Sprint
+            </h4>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              5 days to de-risk one technical problem with a working
+              implementation slice, technical notes, and a rollout path.
+            </p>
+          </div>
+          <div className="rounded-2xl bg-zinc-50 p-4 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950 dark:ring-zinc-800/50">
+            <h4 className="font-medium text-zinc-900 dark:text-zinc-50">
+              Build Sprint
+            </h4>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              2 to 4 weeks to ship a feature or integration end-to-end.
+            </p>
+          </div>
+          <div className="rounded-2xl bg-zinc-50 p-4 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950 dark:ring-zinc-800/50">
+            <h4 className="font-medium text-zinc-900 dark:text-zinc-50">
+              Technical Rescue
+            </h4>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              A short engagement to stabilize a fragile code path or unblock a
+              delayed feature.
+            </p>
           </div>
         </div>
       </motion.section>
 
+      {/* Selected Work */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
+        id="selected-work"
       >
-        <h3 className="mb-5 text-lg font-medium">Projects</h3>
+        <h3 className="mb-5 text-lg font-medium">Selected work</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
             <div key={project.name} className="space-y-2">
@@ -213,10 +287,10 @@ export default function Personal() {
                 <a
                   className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
                   href={project.link}
-                  {...(project.linkTab && { target: "_blank" })}
+                  {...(project.linkTab && { target: '_blank' })}
                 >
                   {project.name}
-                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full"></span>
+                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full dark:bg-zinc-50"></span>
                 </a>
                 <p className="text-base text-zinc-600 dark:text-zinc-400">
                   {project.description}
@@ -227,80 +301,25 @@ export default function Personal() {
         </div>
       </motion.section>
 
+      {/* Contact */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
-        <div className="flex flex-col space-y-2">
-          {WORK_EXPERIENCE.map((job) => (
-            <a
-              className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
-              href={job.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={job.id}
-            >
-              <Spotlight
-                className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
-                size={64}
-              />
-              <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
-                <div className="relative flex w-full flex-row justify-between">
-                  <div>
-                    <h4 className="font-normal dark:text-zinc-100">
-                      {job.title}
-                    </h4>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      {job.company}
-                    </p>
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    {job.start} - {job.end}
-                  </p>
-                </div>
-              </div>
-            </a>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          Have a project in mind? Reach out at{' '}
+          <a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
+            {EMAIL}
+          </a>
+        </p>
+        <div className="mt-4 flex items-center justify-start space-x-3">
+          {SOCIAL_LINKS.map((link) => (
+            <MagneticSocialLink key={link.label} link={link.link}>
+              {link.label}
+            </MagneticSocialLink>
           ))}
         </div>
       </motion.section>
-
-      {/* <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-        <h3 className="mb-3 text-lg font-medium">Accomplishments</h3>
-        <div className="flex flex-col space-y-0">
-          <AnimatedBackground
-            enableHover
-            className="h-full w-full rounded-lg bg-zinc-100 dark:bg-zinc-900/80"
-            transition={{
-              type: 'spring',
-              bounce: 0,
-              duration: 0.2,
-            }}
-          >
-            {BLOG_POSTS.map((post) => (
-              <Link
-                key={post.uid}
-                className="-mx-3 rounded-xl px-3 py-3"
-                href={post.link}
-                data-id={post.uid}
-              >
-                <div className="flex flex-col space-y-1">
-                  <h4 className="font-normal dark:text-zinc-100">
-                    {post.title}
-                  </h4>
-                  <p className="text-zinc-500 dark:text-zinc-400">
-                    {post.description}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </AnimatedBackground>
-        </div>
-      </motion.section> */}
-
     </motion.main>
   )
 }

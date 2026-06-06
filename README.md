@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Zubin Choudhary
 
-## Getting Started
+**Contract Product Engineer** — I ship hard-to-ship product features.
 
-First, run the development server:
+I work with startups and product teams on important technical work that spans too many systems for a simple handoff: complex integrations, backend-heavy features, desktop apps, and specialized systems work including Web3 when relevant.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Selected Work
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Holdem** — A Tauri desktop utility for smoother file workflows, designed, shipped, and grown as an open-source product (130+ GitHub stars).
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+**FFreed** — An ERC-4337 SDK and demo app for smart accounts, bundlers, paymasters, and wallet-less onboarding.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+**StockDesk** — An internal product for a furniture retailer that simplified live stock checks and booking workflows to reduce operational friction on the ground.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Engagements
 
-## Learn More
+- **Spike Sprint** — 5 days to de-risk one technical problem with a working implementation slice, technical notes, and a rollout path
+- **Build Sprint** — 2 to 4 weeks to ship a feature or integration end-to-end
+- **Technical Rescue** — A short engagement to stabilize a fragile code path or unblock a delayed feature
 
-To learn more about Next.js, take a look at the following resources:
+## What teams bring me in for
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- A feature that keeps slipping because it touches too many systems
+- A tricky integration that needs careful implementation, not glue code
+- A backend-heavy product slice that needs end-to-end ownership
+- A short sprint to de-risk an important technical decision
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Get in Touch
 
-## Deploy on Vercel
+- Website: [iamzub.in](https://iamzub.in)
+- Book a scoping call: [cal.com/iamzubin](https://cal.com/iamzubin)
+- Email: me@iamzub.in
+- LinkedIn: [linkedin.com/in/iamzubin](https://linkedin.com/in/iamzubin)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+_GSoC alumnus • Commercial internal-tool delivery • Web3 infrastructure experience_

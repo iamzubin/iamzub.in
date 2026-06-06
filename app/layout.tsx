@@ -4,7 +4,7 @@ import './globals.css'
 import { Header } from './header'
 import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from '@vercel/analytics/react'
 import { Toaster } from 'sonner'
 
 export const viewport: Viewport = {
@@ -14,9 +14,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Zubin Choudhary',
+  title: 'Zubin Choudhary — Contract Product Engineer',
   description:
-    "Let's build a better internet.",
+    'I ship hard-to-ship product features. I work with startups and product teams on important technical work that spans too many systems for a simple handoff: complex integrations, backend-heavy features, desktop apps, and specialized systems work including Web3 when relevant.',
 }
 
 const geist = Geist({

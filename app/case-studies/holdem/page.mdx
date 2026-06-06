@@ -1,0 +1,127 @@
+export const metadata = {
+  title: 'Holdem – Tauri Desktop App for File Workflows | Zubin Choudhary',
+  description:
+    'A case study on building and shipping Holdem, a Tauri-based desktop utility for drag-and-drop file workflows with a shake-activated floating shelf.',
+  openGraph: {
+    images: [
+      {
+        url: '/assets/holdem.gif',
+        width: 1200,
+        height: 630,
+        alt: 'Holdem Desktop App',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/assets/holdem.gif'],
+  },
+}
+
+<img
+  src="/assets/holdem.gif"
+  alt="Holdem app demo"
+  className="w-full rounded-xl"
+/>
+
+# Holdem – A Tauri Desktop Utility for Smoother File Workflows
+
+## The Problem
+
+Managing files across folders, applications, and browser tabs is tedious. Users constantly:
+
+- Lose track of files when switching between windows
+- Struggle to move multiple files in one flow
+- Need a temporary holding area while navigating destinations
+- Want to grab images directly from browser tabs
+
+The desktop becomes a dumping ground, and the traditional drag-and-drop workflow breaks concentration.
+
+## Solution
+
+**Shake. Drop. Done.**
+
+Holdem is a lightweight, open-source desktop tool that creates a **floating shelf** for your files. It runs quietly in the system tray and activates with a simple **mouse shake** while dragging — no keyboard shortcuts needed.
+
+### Core Features
+
+- **Shake to activate** — Mouse shake gesture triggers the floating shelf
+- **Floating holding area** — Drag files or folders into the shelf temporarily
+- **Browser image support** — Drop images directly from web browsers
+- **Cross-folder workflow** — Move files between distant locations without losing track
+- **System tray integration** — Right-click access from the tray
+- **Global hotkey** — Alternative keyboard activation
+- **Auto-launch on startup** — Always ready when you log in
+
+### Coming Soon
+
+- **Drop anything** — Support for text, links, not just files
+- **Multiple shelves** — Organize into separate holding areas for different tasks
+
+## Technical Stack
+
+- **Framework**: [Tauri](https://tauri.app) (Rust + Web frontend)
+- **Frontend**: Web technologies (HTML/JS/CSS)
+- **Backend**: Rust for system-level operations
+- **Cross-platform**: Windows, macOS, Linux support via Tauri
+
+### Why Tauri
+
+- **Small bundle**: ~5MB vs 150MB+ Electron apps
+- **Native performance**: Rust backend with minimal memory footprint
+- **System integration**: Native file system, drag-and-drop, and window management APIs
+- **Security**: Rust's memory safety and smaller attack surface
+
+## Challenges
+
+### 1. Mouse Shake Detection
+
+Implementing reliable shake detection that doesn't false-trigger required careful tuning of gesture velocity, direction changes, and timing thresholds across different mouse sensitivities.
+
+### 2. Floating Window Behavior
+
+Creating a window that:
+
+- Appears instantly on shake
+- Stays on top during drag operations
+- Dismisses cleanly when done
+- Feels native to each OS
+
+### 3. Cross-Application Drag-and-Drop
+
+Handling drag operations from:
+
+- File explorers (Finder, Explorer, etc.)
+- Web browsers (Chrome, Firefox, Safari)
+- Other applications with file payloads
+  Each source has slightly different data formats and permissions.
+
+### 4. Browser Image Support
+
+Special handling for images dragged from browsers — converting web URLs to actual image data that can be saved as files.
+
+## Outcome
+
+- **130+ GitHub stars** — Validated product sense
+- **Windows, macOS, Linux** — Cross-platform via Tauri
+- **Open source** — Community contributions and feedback
+- **Real usage** — Solves an actual workflow friction
+
+## What I Learned
+
+1. **Gesture interfaces are tricky** — Small timing changes make or break the experience
+2. **Tauri is production-ready** — Mature enough for real desktop applications
+3. **Cross-platform drag-and-drop is complex** — Each OS handles it differently
+4. **Simple tools get used** — One feature done well beats many features done poorly
+
+## Relevant for
+
+- Teams needing internal desktop tools
+- Developer tools and utilities
+- Cross-platform applications
+- System-level workflow integrations
+
+---
+
+**Download**: [holdem.iamzub.in](https://holdem.iamzub.in)
+**Star on GitHub**: [github.com/iamzubin/holdem](https://github.com/iamzubin/holdem)

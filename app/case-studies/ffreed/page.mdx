@@ -1,69 +1,118 @@
 export const metadata = {
-  title: 'FFreed – SDK & Demo App for Account Abstraction on Ethereum | Zubin Choudhary',
+  title:
+    'Burner Wallet Interface – NFC Hardware Wallet Integration | Zubin Choudhary',
   description:
-    "An inside look at building an Account Abstraction SDK and demo app on Ethereum.",
+    'How I adapted FFreed into a web interface for Burner NFC hardware wallets, enabling tap-to-sign transactions and self-custody without seed phrases.',
   openGraph: {
     images: [
       {
         url: '/assets/ffreed-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'FFreed Wallet - Account Abstraction SDK',
+        alt: 'Burner Wallet Interface',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     images: ['/assets/ffreed-image.jpg'],
-    site: '@iamzub_in' // if applicable
   },
 }
 
 <Cover
   src="/assets/ffreed-image.jpg"
-  alt="Image from the movie Alien - from cosmos.com"
-  caption="FFreed Wallet"
+  alt="Burner wallet web interface"
+  caption="Web interface for NFC hardware wallet"
 />
 
-# 🧾 Case Study: FFreed – SDK & Demo App for Account Abstraction on Ethereum
+# Burner Wallet Interface – Web App for NFC Hardware Wallets
 
-## 🛠 Problem
+## The Pivot
 
-Smart wallets and account abstraction (AA) are powerful concepts in Web3, yet their implementation can be daunting. My goal was to empower developers to build decentralized applications leveraging AA without grappling with the intricacies of the Ethereum mempool or the complexities of custom contract deployment.
+What started as an ERC-4337 smart account SDK evolved into something more focused: a **web interface for Burner NFC hardware wallets**. Burner (burner.pro) reimagines crypto self-custody as a simple, giftable NFC card—no apps, no seed phrases, just tap and sign.
+
+I adapted the original FFreed infrastructure to create a browser-based companion that bridges the gap between physical hardware and on-chain interactions.
+
+## The Problem
+
+Hardware wallets traditionally require:
+
+- Mobile apps and firmware updates
+- Complex setup flows with seed phrase backup
+- USB cables or Bluetooth pairing
+- Technical confidence many users lack
+
+Burner solved the hardware layer with an NFC card that works straight from the browser. But it needed a **web interface** that matched its simplicity—something that felt as effortless as the tap experience itself.
+
+## The Solution
+
+I built a web app at [burner.iamzub.in](https://burner.iamzub.in) that serves as the software companion to Burner's hardware:
+
+### Core Functionality
+
+- **WalletConnect integration** — Connect to any dApp (Uniswap, Safe, etc.) via QR scan
+- **Transaction signing** — Tap the Burner card to NFC to sign transactions in-browser
+- **Balance overview** — Clean, minimal display of holdings
+- **Send and receive** — Simple transfer flows optimized for the hardware experience
+
+### Technical Architecture
+
+| Component             | Technology            | Purpose                                                |
+| :-------------------- | :-------------------- | :----------------------------------------------------- |
+| **Frontend**          | React + TypeScript    | Responsive interface for desktop and mobile            |
+| **NFC Communication** | Web NFC API + libHaLo | Browser-to-card communication layer                    |
+| **WalletConnect**     | v2 SDK                | dApp connectivity standard                             |
+| **Network Support**   | Ethereum + Bitcoin    | Multi-chain hardware compatibility                     |
+| **Security**          | PIN protection        | Card-level security with lockout after failed attempts |
+
+## Technical Challenges
+
+### 1. Web NFC Browser Support
+
+Web NFC is still emerging and varies across browsers. I implemented feature detection and graceful degradation, ensuring the core WalletConnect functionality works even when NFC isn't available.
+
+### 2. Hardware Wallet State Management
+
+Burner cards are stateless—the web app must track:
+
+- Derived addresses without revealing private keys
+- Pending transaction state across page reloads
+- Session persistence while maintaining security
+
+### 3. WalletConnect Session Persistence
+
+Users expect to stay connected to dApps across browser sessions. I implemented secure session storage that maintains WalletConnect pairing without exposing sensitive material.
+
+### 4. Tap-to-Sign UX
+
+The core interaction—tap card, sign transaction—needed to feel instant. I optimized the NFC handshaking and minimized the steps between user intent and signed transaction.
+
+## What I Learned
+
+1. **Hardware-software integration requires obsession over edge cases** — Card read failures, browser permission denials, and NFC field interference all needed handling
+
+2. **Web NFC is nearly ready** — The API has matured significantly; hardware wallet web apps are now viable
+
+3. **Simplicity is constraint** — Burner's "no seed phrase" philosophy forced design decisions that actually improved security UX
+
+4. **WalletConnect is the standard** — Building on established protocols beats custom integrations
+
+## Technical Depth Demonstrated
+
+- **Web NFC implementation** — Real-world browser-to-hardware communication
+- **Cryptographic integration** — Secure transaction signing without exposing keys
+- **WalletConnect v2** — Modern dApp connectivity implementation
+- **Hardware wallet UX** — Designing for physical-digital interaction patterns
+
+## The Outcome
+
+- **Live web interface** — burner.iamzub.in works with physical Burner cards
+- **Real hardware integration** — Tap-to-sign functionality in production
+- **Cross-chain support** — Ethereum and Bitcoin compatibility
+- **Open source foundation** — Built on libHaLo and BurnerOS tooling
 
 ---
 
-
-## 💡 Solution
-
-I developed ffreed, a developer-friendly SDK designed to simplify AA integration. It offers:
-- Simple wrapper methods for batching transactions and setting up custom logic via ERC-4337.
-- Support for wallet-less onboarding through social and email logins.
-- Seamless integration with bundlers and paymasters under the hood.
-To showcase its capabilities, I also built a small demo dApp that allowed users to:
-- Create smart accounts.
-- Send batched transactions.
-- Interact with contracts without needing ETH for gas (via sponsored gas).
-
----
-
-## ⚙️ Stack
-- SDK: TypeScript, ethers.js, bundler integration
-- Demo App: React + Next.js
-- Infra: Biconomy, custom paymaster, Alchemy APIs
-
----
-
-## 🔍 Challenges & Learnings
-
-Building ffreed presented several hurdles and valuable lessons:
-- Maintaining paymaster reliability proved tricky due to high infrastructure costs, highlighting the economic considerations of running such services.
-- Account abstraction was (and still is, to some extent) an early-stage technology, meaning limited community standards and fewer established best practices were available.
-- Perhaps most significantly, a lack of dedicated outreach and marketing efforts severely limited ffreed's adoption. This, coupled with the broader slowdown in the Web3 market during that period, made it challenging to gain initial traction and community engagement.
-
----
-
-## 📈 Outcome
-Despite the challenges in adoption, ffreed allowed me to:
-- Successfully build and document a working SDK with real developer utility in mind.
-- Gather valuable feedback from early users and ecosystem peers, which provided crucial insights into the evolving needs of the Web3 development landscape.
+**Try it**: [burner.iamzub.in](https://burner.iamzub.in)  
+**Hardware**: [burner.pro](https://burner.pro)  
+**Standard**: WalletConnect v2 + Web NFC
