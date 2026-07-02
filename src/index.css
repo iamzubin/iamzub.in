@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Gloock&display=swap');
+
+@theme {
+  --font-sans: "Gloock", serif;
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+}
+
+:root {
+  --background: #F2EFE9;
+  --foreground: #1A1A1A;
+  --paper-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1A1A1C;
+    --foreground: #E8E6E1;
+    --paper-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Paper Noise Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: var(--paper-noise);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Base MDX Prose Styles */
+.prose {
+  @apply max-w-3xl mx-auto text-lg leading-relaxed space-y-6 pb-20;
+}
+.prose h1, .prose h2, .prose h3 {
+  @apply font-normal tracking-tight mt-12 mb-6;
+}
+.prose h1 { @apply text-5xl sm:text-6xl; }
+.prose h2 { @apply text-3xl border-b border-foreground/20 pb-4; }
+.prose h3 { @apply text-2xl; }
+.prose p { @apply text-foreground/90; }
+.prose a { @apply underline decoration-1 underline-offset-4 hover:text-blue-600 dark:hover:text-blue-400 transition-colors; }
+.prose blockquote { @apply border-l-2 border-foreground/30 pl-6 italic text-foreground/70; }
+.prose img { @apply w-full rounded-none border border-foreground/10 my-10; }
+.prose ul { @apply list-disc list-outside ml-6 space-y-2; }
+.prose li::marker { @apply text-foreground/50; }

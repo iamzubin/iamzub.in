@@ -1,0 +1,83 @@
+![StockDesk Internal Stock Management System](/assets/F3/ScreenShot4.png)
+
+# StockDesk – Internal Inventory System for Multi-Store Furniture Retail
+
+## The Problem
+
+A growing furniture brand with retail locations across multiple cities faced a familiar operational nightmare: **stock coordination at scale**.
+
+Sales representatives were spending more time hunting for inventory than closing deals:
+
+- **Phone tag between stores** — Constant calls to check if an item was available at another location
+- **Spreadsheet chaos** — A shared Google Sheet linked to the ERP system that was perpetually outdated and slow to load
+- **ERP avoidance** — The company's enterprise ERP was powerful but impenetrable for frontline staff, requiring specialized training most never received
+
+The result was predictable: booking delays, double-selling the same item to different customers, and mounting frustration for both staff and buyers.
+
+## The Solution
+
+I designed and built **StockDesk** as a lightweight, purpose-built web application that sits between the complex ERP and the people who actually need inventory information.
+
+### Core Features
+
+**Real-Time Stock Search**
+Instant lookup across all store locations by model, size, color, material, and availability status. No more phone calls, no more spreadsheet refreshes.
+
+**One-Click Booking**
+Sales reps can mark items as "sold" immediately, blocking them from other stores in real-time. The system records customer details and generates an automatic dispatch log for the factory team.
+
+**Role-Based Access**
+Simple but effective permission separation:
+
+- **Sales reps** — Search, book, and view
+- **Store managers** — Override holds and view cross-location inventory
+- **Factory dispatch** — Access booking logs and fulfillment queues
+
+**ERP Integration**
+StockDesk syncs bidirectionally with the existing ERP, ensuring the source of truth stays current while presenting a vastly simpler interface for day-to-day operations.
+
+## Technical Implementation
+
+| Component    | Technology           | Rationale                                                                             |
+| ------------ | -------------------- | ------------------------------------------------------------------------------------- |
+| **Frontend** | React + Tailwind CSS | Fast, responsive UI that works on tablets and desktops in store environments          |
+| **Backend**  | Node.js + Express    | Lightweight API layer for ERP synchronization and booking logic                       |
+| **Database** | MongoDB              | Flexible schema for inventory variations; fast query performance for real-time search |
+| **Hosting**  | Render               | Zero-downtime deployments with automatic scaling during business hours                |
+| **Auth**     | JWT-based sessions   | Simple, secure access control without enterprise identity complexity                  |
+
+## The Impact
+
+After deployment across all retail locations:
+
+- **90% reduction in booking errors** — Confirmed by client reporting
+- **Faster in-store sales cycles** — Reps close deals without pausing to verify stock through other channels
+- **Organized factory workflows** — The dispatch team receives structured booking logs instead of scattered phone messages and handwritten notes
+- **Reduced ERP training burden** — Only one backend administrator needs deep ERP knowledge; frontline staff use StockDesk exclusively
+
+## Why It Succeeded
+
+The technical stack was straightforward. The success came from **designing for the actual users**:
+
+1. **Speed matters in retail** — Every screen loads in under a second because reps won't wait during customer conversations
+
+2. **Mobile-first thinking on desktop** — Large buttons, clear typography, and obvious actions for staff using the system while standing with customers
+
+3. **Progressive disclosure** — Simple search for everyday use; advanced filters available when needed
+
+4. **Respect for existing workflows** — The system adapted to how Indian retail teams actually work, rather than forcing adoption of foreign processes
+
+5. **Reliable synchronization** — The ERP integration is invisible but bulletproof, building trust that StockDesk data is always current
+
+## Lessons for Similar Projects
+
+- **Internal tools must be faster than the alternative** — If a phone call is quicker, staff will use the phone
+- **Training is a design failure** — If users need a manual, the interface isn't clear enough
+- **ERP complexity is a tax on operations** — Thin layers that simplify without replacing can transform workflows
+- **On-the-ground observation beats specification documents** — Understanding actual user behavior revealed requirements no stakeholder interview would have surfaced
+
+---
+
+**Technology stack**: React, Node.js, MongoDB, Render  
+**Duration**: Build sprint with ongoing incremental improvements  
+**Outcome**: 90% error reduction, operational friction eliminated

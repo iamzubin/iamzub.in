@@ -1,37 +1,32 @@
-# Zubin Choudhary
+# React + TypeScript + Vite
 
-**Contract Product Engineer** — I ship hard-to-ship product features.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-I work with startups and product teams on important technical work that spans too many systems for a simple handoff: complex integrations, backend-heavy features, desktop apps, and specialized systems work including Web3 when relevant.
+Currently, two official plugins are available:
 
-## Selected Work
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-**Holdem** — A Tauri desktop utility for smoother file workflows, designed, shipped, and grown as an open-source product (130+ GitHub stars).
+## React Compiler
 
-**FFreed** — An ERC-4337 SDK and demo app for smart accounts, bundlers, paymasters, and wallet-less onboarding.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-**StockDesk** — An internal product for a furniture retailer that simplified live stock checks and booking workflows to reduce operational friction on the ground.
+## Expanding the Oxlint configuration
 
-## Engagements
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
 
-- **Spike Sprint** — 5 days to de-risk one technical problem with a working implementation slice, technical notes, and a rollout path
-- **Build Sprint** — 2 to 4 weeks to ship a feature or integration end-to-end
-- **Technical Rescue** — A short engagement to stabilize a fragile code path or unblock a delayed feature
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+```
 
-## What teams bring me in for
-
-- A feature that keeps slipping because it touches too many systems
-- A tricky integration that needs careful implementation, not glue code
-- A backend-heavy product slice that needs end-to-end ownership
-- A short sprint to de-risk an important technical decision
-
-## Get in Touch
-
-- Website: [iamzub.in](https://iamzub.in)
-- Book a scoping call: [cal.com/iamzubin](https://cal.com/iamzubin)
-- Email: me@iamzub.in
-- LinkedIn: [linkedin.com/in/iamzubin](https://linkedin.com/in/iamzubin)
-
----
-
-_GSoC alumnus • Commercial internal-tool delivery • Web3 infrastructure experience_
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
