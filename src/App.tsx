@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Header } from './components/Header'
@@ -12,12 +11,6 @@ import Ffreed from './pages/case-studies/ffreed.mdx'
 import StockDesk from './pages/case-studies/stock-desk.mdx'
 
 import { useTheme } from './components/ThemeProvider'
-import { PaperLayer } from './components/PaperLayer'
-
-function useDarkMode() {
-  const { isDark } = useTheme()
-  return isDark
-}
 
 function PaperBackground() {
   const { isDark } = useTheme()

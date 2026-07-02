@@ -2,7 +2,7 @@ import { useTheme } from './ThemeProvider'
 import { PaperLayer } from './PaperLayer'
 
 export function Header() {
-  const { theme, setTheme, isDark } = useTheme()
+  const { setTheme, isDark } = useTheme()
 
   return (
     <header className="fixed top-0 w-full z-50 p-4 sm:p-6 pointer-events-none">

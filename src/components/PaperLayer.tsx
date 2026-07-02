@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 import { PaperTexture } from "@paper-design/shaders-react"
 import { useTheme } from "./ThemeProvider"
 
