@@ -247,7 +247,7 @@ button {
 }
 
 .hero__name {
-  font-size: clamp(6rem, 18vw, 15rem);
+  font-size: clamp(3rem, 14vw, 15rem);
   line-height: 0.85;
   letter-spacing: -0.02em;
   font-weight: 900;
@@ -266,11 +266,11 @@ button {
 }
 
 .hero__name--secondary {
-  font-size: clamp(4rem, 12vw, 10rem);
+  font-size: clamp(2.5rem, 10vw, 10rem);
 }
 
 .hero__name--tertiary {
-  font-size: clamp(3rem, 10vw, 8rem);
+  font-size: clamp(2rem, 8vw, 8rem);
 }
 
 /* ========================================
@@ -367,11 +367,12 @@ button {
 }
 
 .floating-btn__svg {
-  width: 10rem;
-  height: 10rem;
+  width: clamp(4rem, 10vw, 5rem);
+  height: clamp(4rem, 10vw, 5rem);
   transform: rotate(-20deg);
   fill: transparent;
   stroke: var(--color-primary);
+  stroke-width: 1px;
   transition: transform 0.4s var(--ease-smooth);
 }
 
@@ -416,12 +417,12 @@ button {
   top: 0;
   height: 100vh;
   height: 100svh;
-  width: 2.1rem;
+  width: var(--trigger-width);
+  z-index: 1005;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  z-index: 1000;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -432,6 +433,9 @@ button {
 @media (min-width: 768px) {
   .drawer-trigger:hover {
     transform: translateX(-0.1rem);
+  }
+  .drawer-trigger.is-open {
+    display: none;
   }
 }
 
@@ -472,6 +476,64 @@ button {
 
 .drawer-trigger:hover .drawer-trigger__label {
   color: #c7f2d3; /* chemtest custom green */
+}
+
+/* Mobile Hamburger Menu */
+.drawer-trigger__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 5;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 2px;
+  background-color: var(--color-primary);
+  display: block;
+  transition: transform 0.3s var(--ease-smooth);
+}
+
+.drawer-trigger__hamburger.open .hamburger-line:nth-child(1) {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.drawer-trigger__hamburger.open .hamburger-line:nth-child(2) {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+@media (max-width: 767px) {
+  .drawer-trigger {
+    width: 3.5rem;
+    height: 3.5rem;
+    right: 1.5rem;
+    top: 1.5rem;
+    background: transparent;
+  }
+  
+  .drawer-trigger__bg,
+  .drawer-trigger__hover-bg,
+  .drawer-trigger__label {
+    display: none;
+  }
+  
+  .drawer-trigger__hamburger {
+    display: flex;
+  }
+
+  .floating-btn {
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .floating-btn__svg {
+    stroke-width: 1.5px;
+  }
 }
 
 /* ========================================

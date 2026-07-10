@@ -196,6 +196,20 @@ export default function App() {
 
         if (!textEl) return
 
+        const floatingItems = section.querySelectorAll('.bubble--floating, .floating-svg')
+        if (floatingItems.length > 0) {
+          gsap.from(floatingItems, {
+            opacity: 0,
+            scale: 0.5,
+            y: 50,
+            duration: 0.8,
+            ease: "back.out(1.5)",
+            stagger: 0.1,
+            delay: i === 0 ? 0.4 : 0,
+            scrollTrigger: i === 0 ? null : stConfig
+          })
+        }
+
         // Chemtest style text animation for all sections
         const split = new SplitType(textEl, { types: 'lines, words' })
         gsap.set(split.lines, { overflow: 'hidden', paddingBottom: '0.1em' })
@@ -218,7 +232,13 @@ export default function App() {
         start: 'top top',
         end: 'bottom bottom',
         snap: {
-          snapTo: 1 / (sections.length - 1),
+          snapTo: (value, self) => {
+            // calculate the exact progress breakpoints for each section
+            const totalScroll = self.end - self.start;
+            if (totalScroll === 0) return value;
+            const breaks = sections.map(s => s.offsetTop / totalScroll);
+            return gsap.utils.snap(breaks, value);
+          },
           duration: { min: 0.1, max: 0.33 },
           ease: "power3.out"
         }
@@ -260,13 +280,13 @@ export default function App() {
           <div className="fixed-bubbles" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10 }}>
             <div className="bubble bubble--floating" style={{ top: '15%', left: '15%', transform: 'rotate(-5deg)' }}>Runway is burning</div>
             <div className="bubble bubble--floating" style={{ top: '75%', right: '15%', transform: 'rotate(8deg)' }}>Skip the interviews</div>
-            <div className="" style={{ position: 'absolute', top: '45%', left: '-10%', transform: 'rotate(-2deg)', width: '150px', background: 'none' }}>
+            <div className="floating-svg" style={{ position: 'absolute', top: '45%', left: '-10%', transform: 'rotate(-2deg)', width: 'clamp(80px, 15vw, 150px)', background: 'none' }}>
               <EyesSVG style={{ width: '100%', height: 'auto' }} />
             </div>
           </div>
 
           <div className="hero__content-wrapper">
-            <h1 className="hero__name">Shipping  an  MVP<br />is  easy.</h1>
+            <h1 className="hero__name">Hey  there.<br />I'm  Zubin.</h1>
           </div>
           <div className="hero__arrow" aria-hidden="true">▼</div>
         </section>
@@ -274,65 +294,66 @@ export default function App() {
         {/* Section 2 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <div className="bubble--floating" style={{ position: 'absolute', top: '45%', left: '10%', transform: 'rotate(-2deg)', width: '150px', background: 'none' }}>
+            <div className="floating-svg bubble--floating" style={{ position: 'absolute', top: '45%', left: '5%', transform: 'rotate(-2deg)', width: 'clamp(80px, 15vw, 150px)', background: 'none' }}>
               <WorreidEyes style={{ width: '100%', height: 'auto' }} />
             </div>
-            <h1 className="hero__name hero__name--tertiary">Scaling  it  is  where<br />teams  break.</h1>
+            <h1 className="hero__name hero__name--tertiary">Building  the  MVP  was<br />the  fun  part.</h1>
           </div>
         </section>
 
         {/* Section 3 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">AI-generated  code<br />collapses  under  load.</h1>
+            <h1 className="hero__name hero__name--tertiary">But  eventually,  the  codebase<br />starts  to  crack.</h1>
           </div>
         </section>
 
         {/* Section 4 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">Desktop  apps  drain<br />system  memory.</h1>
+            <h1 className="hero__name hero__name--tertiary">AI-generated  apps<br />collapse  under  load.</h1>
           </div>
         </section>
 
         {/* Section 5 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">I  fix  the  architecture<br />underneath.</h1>
+            <h1 className="hero__name hero__name--tertiary">Heavy  desktop  builds<br />drain  system  memory.</h1>
           </div>
         </section>
 
         {/* Section 6 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--secondary">I  am  Zubin.</h1>
+            <h1 className="hero__name hero__name--secondary">And  hiring  a  full-time<br />senior  engineer  takes  months.</h1>
           </div>
         </section>
 
         {/* Section 7 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">Contract  Product<br />Engineer.</h1>
+            <h1 className="hero__name hero__name--tertiary">I  step  in  and  fix  the<br />architecture  in  weeks.</h1>
           </div>
         </section>
 
         {/* Section 8 */}
         <section className="scroll-section">
-          <div className="hero__content-wrapper" style={{ justifyContent: 'center', position: 'relative' }}>
-            <div
-              className="bubble bubble--3"
-              style={{ background: 'var(--color-primary)', color: 'var(--color-white)', cursor: 'pointer', fontSize: 'clamp(2rem, 5vw, 4rem)', padding: '2rem 4rem', transform: 'none' }}
+                      <div
+              className="bubble"
+              style={{ background: 'var(--color-primary)', color: 'var(--color-white)', cursor: 'pointer', fontSize: 'clamp(1.2rem, 5vw, 4rem)', padding: 'clamp(1rem, 3vw, 2rem) clamp(1.5rem, 6vw, 4rem)', transform: 'none', textAlign: 'center', whiteSpace: 'normal', position: 'relative', left: 'auto', bottom: 'auto', top: 'auto', right: 'auto' }}
               onClick={openDrawer}
             >
               Book a Scoping Call
             </div>
-
-            <div className="final-subtext" style={{ position: 'absolute', bottom: '-20vh', color: 'var(--color-white)', fontSize: '0.8rem', lineHeight: '1.6', fontWeight: '500', opacity: 0.9 }}>
+          <div className="hero__content-wrapper" style={{ justifyContent: 'center', alignItems: 'center', gap: '4rem' }}>
+            <div className="final-subtext" style={{ color: 'var(--color-primary)', fontSize: 'clamp(0.8rem, 2vw, 1rem)', lineHeight: '1.6', fontWeight: '500', opacity: 0.9, textAlign: 'center' }}>
               At any time, you can reach out :<br />
-              on Twitter : <strong style={{ color: 'var(--color-primary)' }}>@ZUBIN</strong><br />
-              on LinkedIn : <strong style={{ color: 'var(--color-primary)' }}>IN/ZUBIN</strong><br />
-              on Email : <strong style={{ color: 'var(--color-primary)' }}>HELLO@ZUBIN.DEV</strong>
+              on Twitter : <strong>@ZUBIN</strong><br />
+              on LinkedIn : <strong>IN/ZUBIN</strong><br />
+              on Email : <strong>HELLO@ZUBIN.DEV</strong>
             </div>
+
+
           </div>
         </section>
 
