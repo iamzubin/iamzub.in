@@ -1,0 +1,853 @@
+/* ========================================
+   Font Declarations
+   ======================================== */
+
+@font-face {
+  font-family: 'Boris';
+  src: url('./fonts/Boris.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LCT Mogi';
+  src: url('./fonts/LCTMogi-A.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========================================
+   CSS Custom Properties
+   ======================================== */
+
+:root {
+  --color-primary: #283881;
+  --color-primary-rgb: 40, 56, 129;
+  --color-bg: #f2f2f2;
+  --color-white: #ffffff;
+
+  --font-main: 'Boris', 'LCT Mogi', system-ui, -apple-system, sans-serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --drawer-width: clamp(380px, 42vw, 680px);
+  --trigger-width: 2.1rem;
+
+  /* Chemtest-style custom ease — matches power4.inOut */
+  --ease-smooth: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ========================================
+   Reset & Base
+   ======================================== */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--color-primary);
+  background: var(--color-bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  line-height: 1.5;
+  position: relative;
+  user-select: none;
+}
+
+
+
+/* Hide scrollbar globally like chemtest.fr */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* ========================================
+   Scroll Progress Bar (chemtest pattern)
+   ======================================== */
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: -1%;
+  width: 102%;
+  height: 0.35rem;
+  z-index: 1000;
+  transform-origin: left;
+  will-change: transform;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--color-primary-rgb), 0.7) 0%,
+    rgba(var(--color-primary-rgb), 0.3) 50%,
+    rgba(var(--color-primary-rgb), 0.7) 100%
+  );
+}
+
+/* ========================================
+   CSS Custom Properties (Additions)
+   ======================================== */
+:root {
+  --font-sans: system-ui, -apple-system, sans-serif;
+}
+
+/* ========================================
+   Main View Backgrounds & Shader
+   ======================================== */
+
+.main-view {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent horizontal scroll from blobs */
+}
+
+/* Background Canvas - Scrolls naturally with the document */
+.bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-color: #c7f2d3; /* Pale green base moved here */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Hero Section Blob (Round Dome) */
+.bg-blob--hero {
+  position: absolute;
+  top: 130vh; /* Peeks into the bottom of the first section */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120vw;
+  height: 170vh;
+  border-radius: 50%;
+  background-color: #46cdf4; /* Bright cyan/blue dome */
+  filter: blur(30px);
+}
+
+/* Blue Body for Sections 2 through 7 */
+.bg-blob--blue {
+  position: absolute;
+  top: 150vh;
+  left: 0;
+  width: 100%;
+  height: 650vh; /* Accommodate up to 800vh total height */
+  background-color: #46cdf4;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 20vh);
+  mask-image: linear-gradient(to bottom, transparent, black 20vh);
+}
+
+/* Bottom Sunset Blob (Tight half-circle) for Section 8 */
+.bg-blob--sunset {
+  position: absolute;
+  top: 680vh; /* Covers the final section perfectly */
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 300vw; /* Massive width to match the reference image */
+  height: 120vh;
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse at bottom center, #d7cae5 0%, #f7d77b 45%, transparent 65%);
+  filter: blur(8px);
+  opacity: 1;
+}
+
+/* Floating Hovering Bubbles */
+.bubble--floating {
+  position: absolute;
+  padding: 1rem 2rem;
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  white-space: nowrap;
+}
+
+/* Enhanced Grain Shader Overlay */
+.shader-overlay {
+  content: '';
+  position: fixed;
+  inset: 0;
+  /* USER TWEAK: Adjust this opacity value to make the grain stronger (e.g. 0.8) or weaker (e.g. 0.3) */
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 9998;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  mix-blend-mode: overlay;
+}
+
+/* ========================================
+   Scroll Sections
+   ======================================== */
+
+.scroll-section {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 12vh 8vw 8vh;
+}
+
+/* ========================================
+   Hero Section (Extends scroll-section)
+   ======================================== */
+
+.hero {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.hero__content-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__name {
+  font-size: clamp(6rem, 18vw, 15rem);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  font-weight: 900;
+  color: var(--color-primary);
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+}
+
+/* For GSAP text reveal animations */
+.line {
+  overflow: hidden;
+  padding-top: 0.2em;
+  margin-top: -0.2em;
+  padding-bottom: 0.1em;
+}
+
+.hero__name--secondary {
+  font-size: clamp(4rem, 12vw, 10rem);
+}
+
+.hero__name--tertiary {
+  font-size: clamp(3rem, 10vw, 8rem);
+}
+
+/* ========================================
+   Speech Bubbles
+   ======================================== */
+
+.bubble {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  background: var(--color-white);
+  color: var(--color-primary);
+  padding: 0.4em 1em;
+  border-radius: 50px;
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
+  font-family: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  z-index: 2;
+}
+
+.bubble--1 {
+  top: -5%;
+  left: -15%;
+  transform: rotate(-8deg);
+}
+
+.bubble--2 {
+  top: 30%;
+  right: -25%;
+  transform: rotate(5deg);
+}
+
+.bubble--3 {
+  bottom: -15%;
+  left: 30%;
+  transform: rotate(-3deg);
+}
+
+/* Down arrow */
+.hero__arrow {
+  margin-top: 4rem;
+  font-size: 2rem;
+  color: var(--color-primary);
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px);  }
+}
+
+/* ========================================
+   Drawer Footer
+   ======================================== */
+
+.drawer__footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.drawer__socials {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  font-weight: 700;
+}
+
+.drawer__socials a {
+  transition: opacity 0.2s ease;
+}
+
+.drawer__socials a:hover {
+  opacity: 0.6;
+}
+
+/* ========================================
+   Floating Action Button
+   ======================================== */
+
+.floating-btn {
+  position: fixed;
+  bottom: 2.5rem;
+  right: calc(var(--trigger-width) + 2rem);
+  z-index: 1000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.floating-btn__svg {
+  width: 10rem;
+  height: 10rem;
+  transform: rotate(-20deg);
+  fill: transparent;
+  stroke: var(--color-primary);
+  transition: transform 0.4s var(--ease-smooth);
+}
+
+@keyframes btn-shake {
+  0%, 100% { transform: rotate(-5deg) scale(1.1); }
+  50% { transform: rotate(5deg) scale(1.1); }
+}
+
+.floating-btn:hover .floating-btn__svg {
+  animation: btn-shake 0.25s ease-in-out infinite;
+}
+
+.floating-btn__path {
+  fill: var(--color-primary);
+  transition: fill 0.3s var(--ease-smooth);
+}
+
+.floating-btn__path-inverted {
+  fill: var(--color-white);
+  stroke: var(--color-primary);
+  transition: fill 0.3s var(--ease-smooth), stroke 0.3s var(--ease-smooth);
+}
+
+.floating-btn:hover .floating-btn__path {
+  fill: var(--color-white);
+}
+
+.floating-btn:hover .floating-btn__path-inverted {
+  fill: var(--color-primary);
+  stroke: var(--color-white);
+}
+
+
+/* ========================================
+   Drawer Trigger (Sidebar Button)
+   Matches chemtest.fr ressources-button
+   ======================================== */
+
+.drawer-trigger {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  width: 2.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1000;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: transform 0.3s var(--ease-smooth);
+}
+
+@media (min-width: 768px) {
+  .drawer-trigger:hover {
+    transform: translateX(-0.1rem);
+  }
+}
+
+.drawer-trigger__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 70vh;
+  background: linear-gradient(to bottom, var(--color-primary), transparent);
+  z-index: 1;
+}
+
+.drawer-trigger__hover-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-white);
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.3s var(--ease-smooth);
+}
+
+.drawer-trigger__label {
+  position: relative;
+  z-index: 3;
+  margin-top: 3.5rem;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  white-space: nowrap;
+  transition: color 0.3s var(--ease-smooth);
+}
+
+.drawer-trigger:hover .drawer-trigger__label {
+  color: #c7f2d3; /* chemtest custom green */
+}
+
+/* ========================================
+   Drawer Panel — Full height slide-out
+   Matches chemtest.fr header-container:
+   - fixed, full viewport height
+   - starts at translateX(100%)
+   - GSAP animates x to var(--trigger-width)
+   - white bg, primary text
+   ======================================== */
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  height: 100vh;
+  height: 100svh;
+  width: 100%;
+  background: var(--color-white);
+  transform: translateX(100%);
+  will-change: transform;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.drawer h1, .drawer h2, .drawer h3 {
+  font-family: var(--font-main);
+}
+
+/* Inner scroller — like chemtest's scroller-container */
+.drawer__scroller {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  min-height: 100svh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .drawer__scroller {
+    width: calc(100% - var(--trigger-width) - var(--trigger-width));
+    /* Leave room for trigger on right and "close" button on left */
+  }
+}
+
+/* ========================================
+   Close Button — Left side of drawer
+   Chemtest has a slim button that appears on the left
+   when the drawer is open
+   ======================================== */
+
+.drawer-close-btn {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1005; /* High z-index */
+  height: 100vh;
+  height: 100svh;
+  width: 2.1rem;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  background: #c7f2d3; /* chemtest bg-custom-green equivalent */
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-4rem); /* Translate out by default */
+  will-change: transform, opacity;
+}
+
+@media (min-width: 768px) {
+  .drawer-close-btn {
+    display: flex;
+  }
+}
+
+.drawer-close-btn__label {
+  margin-top: 3.5rem;
+  transform: rotate(-90deg);
+  color: var(--color-primary); /* custom-indigo */
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  transition: color 0.3s var(--ease-smooth);
+}
+
+.drawer-close-btn:hover .drawer-close-btn__label {
+  color: var(--color-white);
+}
+
+/* ========================================
+   Drawer Content
+   ======================================== */
+
+.drawer__content {
+  padding: 4rem 3rem 5rem;
+  color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 100svh;
+}
+
+@media (min-width: 768px) {
+  .drawer__content {
+    padding: 4rem 2rem 10rem 2rem;
+  }
+}
+
+.drawer__heading {
+  font-size: clamp(2.2rem, 10vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.drawer__intro {
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 900;
+  max-width: 65vw;
+}
+
+@media (max-width: 768px) {
+  .drawer__intro {
+    max-width: 100%;
+  }
+}
+
+/* ========================================
+   Engagement Sections (Accordion-style like chemtest)
+   ======================================== */
+
+.engagements-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 65vw;
+  gap: 0.3rem;
+}
+
+@media (max-width: 768px) {
+  .engagements-list {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1536px) {
+  .engagements-list {
+    max-width: 50rem;
+  }
+}
+
+.engagement-item {
+  height: auto;
+}
+
+.engagement-item__trigger {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: flex-start;
+  gap: 2rem;
+  font-size: clamp(1.1rem, 5vw, 1.75rem);
+  line-height: 1.15;
+  padding: 0.6rem 0;
+  width: 100%;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .engagement-item__trigger {
+    padding-left: 2rem;
+    font-size: 1.75rem;
+    line-height: 1.08;
+  }
+}
+
+.engagement-item__title {
+  flex: 1;
+}
+
+.engagement-item__arrow {
+  transition: transform 0.5s ease-in-out;
+  flex-shrink: 0;
+  font-size: 1.2em;
+}
+
+.engagement-item__arrow--open {
+  transform: rotate(90deg);
+}
+
+.engagement-item__body {
+  height: 0;
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.5;
+  will-change: height;
+}
+
+@media (min-width: 768px) {
+  .engagement-item__body {
+    padding-left: 2rem;
+  }
+}
+
+.engagement-item__body-inner {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.engagement-item__timeline {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  font-weight: 900;
+}
+
+.engagement-item__description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.7;
+  font-weight: 900;
+}
+
+/* ========================================
+   Divider
+   ======================================== */
+
+.drawer__divider {
+  width: 40px;
+  height: 2px;
+  background: var(--color-primary);
+  opacity: 0.12;
+  margin: 1rem 0;
+}
+
+/* ========================================
+   Selected Work
+   ======================================== */
+
+.work-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 65vw;
+  gap: 0.3rem;
+}
+
+@media (max-width: 768px) {
+  .work-list {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1536px) {
+  .work-list {
+    max-width: 50rem;
+  }
+}
+
+.work-item__trigger {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: flex-start;
+  gap: 2rem;
+  font-size: clamp(1.1rem, 5vw, 1.75rem);
+  line-height: 1.15;
+  padding: 0.6rem 0;
+  width: 100%;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .work-item__trigger {
+    padding-left: 2rem;
+    font-size: 1.75rem;
+    line-height: 1.08;
+  }
+}
+
+.work-item__title {
+  flex: 1;
+}
+
+.work-item__arrow {
+  transition: transform 0.5s ease-in-out;
+  flex-shrink: 0;
+  font-size: 1.2em;
+}
+
+.work-item__arrow--open {
+  transform: rotate(90deg);
+}
+
+.work-item__body {
+  height: 0;
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.5;
+  will-change: height;
+}
+
+@media (min-width: 768px) {
+  .work-item__body {
+    padding-left: 2rem;
+  }
+}
+
+.work-item__body-inner {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.work-item__tags {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  font-weight: 900;
+}
+
+.work-item__description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.7;
+  font-weight: 900;
+}
+
+.work-item__highlight {
+  opacity: 0.9;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 15vh 7vw 8vh;
+  }
+
+  .drawer__content {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .footer {
+    padding: 3rem 7vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 12vh 6vw 6vh;
+  }
+
+  .footer__links {
+    gap: 1.2rem;
+  }
+
+  .drawer__content {
+    padding: 2.5rem 1.2rem 3rem;
+  }
+}
