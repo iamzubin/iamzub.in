@@ -1,19 +1,13 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import EyesSVG from './assets/eyes.svg?react'
-import WorreidEyes from './assets/worriedeyes.svg?react'
+import WinkEyesSVG from './assets/winkeyes.svg?react'
 import CallMeSVG from './assets/callme.svg?react'
 import ThumbsUpSVG from './assets/thumbsup.svg?react'
+import PointerSVG from './assets/pointer.svg?react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Flip } from 'gsap/Flip'
-import SplitType from 'split-type'
 import Drawer from './components/Drawer'
 import DrawerTrigger from './components/DrawerTrigger'
-import Lenis from 'lenis'
-
-// Register plugins
-// GSAP plugins must be registered before use
-gsap.registerPlugin(ScrollTrigger, Flip)
+import { useScrollAnimations } from './hooks/useScrollAnimations'
 
 const EASE = 'power4.inOut'
 
@@ -82,244 +76,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [drawerOpen, closeDrawer])
 
-  // Floating animations for bubbles removed.
-
-  useEffect(() => {
-    // Lenis Smooth Scroll setup
-    const lenis = new Lenis({
-      duration: 0.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    })
-
-    function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
-
-    lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000)
-    })
-    gsap.ticker.lagSmoothing(0)
-
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && drawerOpen) closeDrawer()
-    }
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      lenis.destroy()
-      gsap.ticker.remove(lenis.raf)
-    }
-  }, [drawerOpen])
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Setup progress bar
-      gsap.to('.scroll-progress-bar', {
-        scaleX: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.main-view',
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: true
-        }
-      })
-
-      // Drawer trigger animations
-      gsap.to('.drawer-trigger', {
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'bottom top',
-          toggleActions: 'play none none reverse'
-        },
-        background: 'var(--color-primary)'
-      })
-
-      // Floating Bubbles Continuous Animation
-      gsap.utils.toArray('.bubble--floating').forEach(bubble => {
-        gsap.to(bubble, {
-          y: "random(-30, 30)",
-          x: "random(-30, 30)",
-          rotation: "random(-10, 10)",
-          duration: "random(3, 5)",
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-          repeatRefresh: true
-        })
-      })
-
-      gsap.to('.hero__arrow', {
-        opacity: 0,
-        y: 20,
-        scrollTrigger: {
-          trigger: mainRef.current,
-          start: 'top top',
-          end: '150px top',
-          scrub: true
-        }
-      })
-
-      const sections = gsap.utils.toArray('.scroll-section')
-
-      sections.forEach((section, i) => {
-        const textEl = section.querySelector('.hero__name')
-
-        // Setup ScrollTrigger config
-        const stConfig = {
-          trigger: textEl || section,
-          start: 'top 60%',
-          end: 'bottom 25%',
-          toggleActions: 'play reverse play reverse'
-        }
-
-        // Section 8: Button & Footer text
-        if (i === 7) {
-          const btn = section.querySelector('.bubble')
-          if (btn) {
-            gsap.from(btn, {
-              opacity: 0,
-              scale: 0.8,
-              y: 50,
-              duration: 0.6,
-              ease: "back.out(1.5)",
-              scrollTrigger: stConfig
-            })
-          }
-          const subText = section.querySelector('.final-subtext')
-          if (subText) {
-            gsap.from(subText, {
-              opacity: 0,
-              y: 20,
-              duration: 0.8,
-              delay: 0.3,
-              scrollTrigger: stConfig
-            })
-          }
-          return
-        }
-
-        if (!textEl) return
-
-        const floatingItems = section.querySelectorAll('.bubble--floating, .floating-svg')
-        if (floatingItems.length > 0) {
-          gsap.from(floatingItems, {
-            opacity: 0,
-            scale: 0.5,
-            y: 50,
-            duration: 0.8,
-            ease: "back.out(1.5)",
-            stagger: 0.1,
-            delay: i === 0 ? 0.4 : 0,
-            scrollTrigger: i === 0 ? null : stConfig
-          })
-        }
-
-        if (i === 0) {
-          // Scale-Up Effect for Hero
-          gsap.from(textEl, {
-            scale: 0,
-            opacity: 0,
-            duration: 0.2, // originally 0.3
-            ease: "back.out(1.7)",
-            delay: 0.1,
-            scrollTrigger: stConfig
-          });
-        } else if (i === 1 || i === 3) {
-          // Popcorn Pop Effect for Sections 2 and 4
-          const split = new SplitType(textEl, { types: 'chars' });
-          gsap.from(split.chars, {
-            scale: 0,
-            y: 30,
-            rotation: () => gsap.utils.random(-20, 20),
-            stagger: { each: 0.02, from: "random" }, // originally 0.04
-            duration: 0.2, // originally 0.4/0.3
-            ease: "back.out(2)",
-            scrollTrigger: stConfig
-          });
-        } else {
-          // Default word animation for other sections
-          const split = new SplitType(textEl, { types: 'words' })
-          gsap.from(split.words, {
-            opacity: 0,
-            y: 40,
-            rotationZ: 10,
-            stagger: 0.05, // originally 0.1
-            duration: 0.4, // originally 0.8
-            ease: "power3.out",
-            scrollTrigger: stConfig
-          })
-        }
-      })
-
-      // Snap scroll to sections
-      ScrollTrigger.create({
-        trigger: mainRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        snap: {
-          snapTo: (value, self) => {
-            // calculate the exact progress breakpoints for each section
-            const totalScroll = self.end - self.start;
-            if (totalScroll === 0) return value;
-            const breaks = sections.map((s, i) => {
-              if (i === sections.length - 1) return 1;
-              return Math.min(1, s.offsetTop / totalScroll);
-            });
-            return gsap.utils.snap(breaks, value);
-          },
-          duration: { min: 0.05, max: 0.15 },
-          ease: "power2.out"
-        }
-      })
-
-      // Floating button: animate from fixed corner into the footer section using GSAP Flip
-      // Per Emil: Flip animation calculates the delta and translates smoothly
-      if (floatingBtnRef.current && lastSectionRef.current) {
-        ScrollTrigger.create({
-          trigger: lastSectionRef.current,
-          start: 'top 70%',
-          end: 'top 40%',
-          onEnter: () => {
-            const state = Flip.getState(floatingBtnRef.current);
-            gsap.set(floatingBtnRef.current, {
-              position: 'relative',
-              bottom: 'auto',
-              right: 'auto',
-            });
-            Flip.from(state, {
-              duration: 0.6,
-              ease: 'power3.out',
-            });
-          },
-          onLeaveBack: () => {
-            const state = Flip.getState(floatingBtnRef.current);
-            gsap.set(floatingBtnRef.current, {
-              clearProps: 'position,bottom,right',
-            });
-            Flip.from(state, {
-              duration: 0.6,
-              ease: 'power3.out',
-            });
-          },
-        })
-      }
-
-    }, mainRef)
-
-    return () => ctx.revert()
-  }, [])
+  useScrollAnimations(mainRef, floatingBtnRef, lastSectionRef)
 
   return (
     <>
@@ -338,11 +95,10 @@ export default function App() {
         </div>
         <div className="shader-overlay" />
 
-        {/* Section 1 */}
+        {/* Section 1 — Hero */}
         <section className="scroll-section hero relative overflow-hidden">
-          {/* Floating Bubbles (Only on first section) */}
           <div className="fixed-bubbles absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-            <div className="bubble bubble--floating top-[15%] left-[15%] rotate-[-5deg]">Hey There!!</div>
+            <div className="bubble bubble--floating top-[15%] left-[15%] rotate-[-5deg]">Hey there!</div>
             <div className="floating-svg absolute top-[10%] -right-[40%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
               <EyesSVG className="w-full h-auto" />
             </div>
@@ -350,66 +106,58 @@ export default function App() {
               <ThumbsUpSVG className="w-full h-auto" />
             </div>
           </div>
-
           <div className="hero__content-wrapper">
-            <h1 className="hero__name">I'm  Zubin.</h1>
+            <h1 className="hero__name">I'm Zubin.</h1>
           </div>
           <div className="hero__arrow absolute bottom-8 left-1/2 -translate-x-1/2" aria-hidden="true">▼</div>
         </section>
 
-        {/* Section 2 */}
+        {/* Section 2 — Tagline */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-                        <div className="bubble bubble--floating top-[75%] right-[15%] rotate-[8deg]">Skip the interviews</div>
-
-            <div className="floating-svg absolute top-[45%] left-[5%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
-              <WorreidEyes className="w-full h-auto" />
+            <div className="bubble bubble--floating -top-[50%] -right-[5%] rotate-[6deg]">rare, I know</div>
+            <div className="floating-svg absolute -top-[50%] left-[0%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
+              <WinkEyesSVG className="w-full h-auto" />
             </div>
-            {/* Pure Cause font, no display accent */}
-            <h1 className="hero__name hero__name--tertiary hero__name--mixed">Building  the  MVP  was<br />the  fun  part.</h1>
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed"><span className="accent">Developer.</span> The kind<br />who actually finishes things.</h1>
           </div>
         </section>
 
-        {/* Section 3 */}
+        {/* Section 3 — Full stack */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            {/* Highlighted text block */}
-            <h1 className="hero__name hero__name--tertiary hero__name--mixed">But  eventually,  the  codebase <br /> starts  to<span className="highlight">crack</span></h1>
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">I work across the <span className="accent">full stack</span> <br/>whatever your product needs.</h1>
           </div>
         </section>
 
-        {/* Section 4 */}
+        {/* Section 4 — Floating chip cloud */}
+        <section className="scroll-section chip-cloud-section relative">
+          <div className="floating-svg absolute top-[10%] right-[100px] w-[clamp(60px,12vw,120px)] bg-transparent animate-bounce-tilt origin-bottom">
+            <PointerSVG className="w-full h-auto" />
+          </div>
+
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
+            <div className="bubble bubble--chip top-[15%] left-[18%] -rotate-6">dApps</div>
+            <div className="bubble bubble--chip top-[20%] right-[25%] rotate-3">dashboards</div>
+            <div className="bubble bubble--chip top-[45%] left-[25%] -rotate-3">internal tools</div>
+            <div className="bubble bubble--chip top-[55%] left-[50%] -translate-x-1/2 rotate-6">APIs</div>
+            <div className="bubble bubble--chip top-[40%] right-[15%] rotate-2">Web3</div>
+            <div className="bubble bubble--chip bottom-[20%] left-[15%] -rotate-3">automations</div>
+            <div className="bubble bubble--chip bottom-[25%] right-[28%] rotate-1">landing pages</div>
+          </div>
+        </section>
+
+        {/* Section 5 — Values */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            {/* Pure Cause font */}
-            <h1 className="hero__name hero__name--tertiary hero__name--mixed">AI-generated  apps<br />collapse  under  load.</h1>
+            <div className="floating-svg absolute -top-[30%] -left-[5%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
+              <EyesSVG className="w-full h-auto" />
+            </div>
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">Clean code, good UX,<br /><span className="accent">zero drama.</span></h1>
           </div>
         </section>
 
-        {/* Section 5 */}
-        <section className="scroll-section">
-          <div className="hero__content-wrapper">
-            {/* Highlighted text block */}
-            <h1 className="hero__name hero__name--tertiary hero__name--mixed">Desktop  builds  that<br /><span className="highlight">drain  your  memory.</span></h1>
-          </div>
-        </section>
-
-        {/* Section 6 */}
-        <section className="scroll-section">
-          <div className="hero__content-wrapper">
-            {/* Pure Cause font */}
-            <h1 className="hero__name hero__name--secondary hero__name--mixed">Hiring  a  senior  engineer<br />takes  months.</h1>
-          </div>
-        </section>
-
-        {/* Section 7 */}
-        <section className="scroll-section">
-          <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary hero__name--mixed">I  step  in  and<br /><span className="accent">fix  it  in  weeks.</span></h1>
-          </div>
-        </section>
-
-        {/* Section 8 — Footer */}
+        {/* Section 6 — Footer / CTA */}
         <section className="scroll-section scroll-section--footer" ref={lastSectionRef}>
           <div className="hero__content-wrapper justify-center items-center gap-12">
             <div className="floating-btn-placeholder" />
@@ -417,21 +165,20 @@ export default function App() {
               ref={floatingBtnRef}
               onClick={openDrawer}
               className="floating-btn cursor-pointer z-10"
-              aria-label="Book a Scoping Call"
+              aria-label="Let's talk"
             >
               <CallMeSVG className="animate-periodic-shake w-[clamp(8rem,15vw,12rem)] h-[clamp(8rem,15vw,12rem)] fill-transparent stroke-[var(--color-primary)] stroke-[1.5px]" />
             </button>
             <div className="final-subtext">
-              <span className="final-subtext__heading">Let's  talk.</span>
+              <span className="final-subtext__heading">Let's talk.</span>
               <div className="final-subtext__links">
-                <a href="https://twitter.com/zubin" target="_blank" rel="noopener noreferrer">Twitter  →  @ZUBIN</a>
-                <a href="https://linkedin.com/in/zubin" target="_blank" rel="noopener noreferrer">LinkedIn  →  IN/ZUBIN</a>
-                <a href="mailto:hello@zubin.dev">Email  →  HELLO@ZUBIN.DEV</a>
+                <a href="https://twitter.com/zubin" target="_blank" rel="noopener noreferrer">Twitter → @ZUBIN</a>
+                <a href="https://linkedin.com/in/zubin" target="_blank" rel="noopener noreferrer">LinkedIn → IN/ZUBIN</a>
+                <a href="mailto:hello@zubin.dev">Email → HELLO@ZUBIN.DEV</a>
               </div>
             </div>
           </div>
         </section>
-
 
       </main>
 
@@ -445,7 +192,6 @@ export default function App() {
       >
         <span className="drawer-close-btn__label">Nevermind</span>
       </button>
-
 
       <DrawerTrigger isOpen={drawerOpen} onClick={toggleDrawer} />
     </>

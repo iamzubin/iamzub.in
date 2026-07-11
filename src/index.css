@@ -1,13 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --animate-periodic-shake: periodic-shake 3s infinite;
+  --animate-periodic-shake: periodic-shake 4s infinite;
   @keyframes periodic-shake {
-    0%, 80% { transform: rotate(-20deg) scale(1); }
-    85% { transform: rotate(-10deg) scale(1.15); }
-    90% { transform: rotate(-30deg) scale(1.15); }
-    95% { transform: rotate(-10deg) scale(1.15); }
-    100% { transform: rotate(-20deg) scale(1); }
+    0%, 10%, 15%, 25%, 100% { transform: rotate(-20deg) scale(1); }
+    2%, 6%, 17%, 21% { transform: rotate(-32deg) scale(1.1); }
+    4%, 8%, 19%, 23% { transform: rotate(-8deg) scale(1.1); }
   }
   --animate-bounce-tilt: bounce-tilt 4s infinite;
   @keyframes bounce-tilt {
@@ -26,26 +24,6 @@
     89%, 91% { opacity: 1; }
     93%, 100% { opacity: 0; }
   }
-}
-
-/* ========================================
-   Font Declarations
-   ======================================== */
-
-@font-face {
-  font-family: 'Boris';
-  src: url('./fonts/Boris.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'LCT Mogi';
-  src: url('./fonts/LCTMogi-A.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
 }
 
 /* ========================================
@@ -194,25 +172,25 @@ button {
   filter: blur(30px);
 }
 
-/* Blue Body for Sections 2 through 7 */
+/* Blue Body for Sections 2 through 5 */
 .bg-blob--blue {
   position: absolute;
   top: 150vh;
   left: 0;
   width: 100%;
-  height: 650vh; /* Accommodate up to 800vh total height */
+  height: 450vh; /* 6 sections total = ~600vh, blue runs from 150vh to 600vh */
   background-color: #46cdf4;
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 20vh);
   mask-image: linear-gradient(to bottom, transparent, black 20vh);
 }
 
-/* Bottom Sunset Blob (Tight half-circle) for Section 8 */
+/* Bottom Sunset Blob (Tight half-circle) for Section 6 */
 .bg-blob--sunset {
   position: absolute;
-  top: 680vh; /* Covers the final section perfectly */
+  top: 500vh; /* Covers the final section — 6 sections × 100vh */
   left: 50%;
   transform: translate(-50%, 0);
-  width: 300vw; /* Massive width to match the reference image */
+  width: 300vw;
   height: 120vh;
   border-radius: 50% 50% 0 0;
   background: radial-gradient(ellipse at bottom center, #d7cae5 0%, #f7d77b 45%, transparent 65%);
@@ -231,6 +209,21 @@ button {
   font-weight: 500;
   font-size: clamp(1rem, 2vw, 1.5rem);
   white-space: nowrap;
+}
+
+/* Chip variant — used for the "what I build" cloud section */
+.bubble--chip {
+  position: absolute;
+  padding: 0.6rem 1.4rem;
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(1.1rem, 2.5vw, 2rem);
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  z-index: 2;
 }
 
 /* Enhanced Grain Shader Overlay */
