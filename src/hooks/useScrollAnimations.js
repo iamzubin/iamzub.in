@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Flip } from 'gsap/Flip'
@@ -7,20 +7,25 @@ import Lenis from 'lenis'
 
 gsap.registerPlugin(ScrollTrigger, Flip)
 
-export function useScrollAnimations(mainRef, floatingBtnRef, lastSectionRef) {
+export function useScrollAnimations(mainRef, floatingBtnRef, lastSectionRef, drawerOpen) {
+  const lenisRef = useRef(null)
   useEffect(() => {
     // Lenis Smooth Scroll setup
     const lenis = new Lenis({
-      duration: 0.8,
+      duration: 0.75, // slightly faster settle
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
       smooth: true,
-      mouseMultiplier: 1,
+      wheelMultiplier: 1.1, // 10% faster distance per scroll
+      mouseMultiplier: 1.1, // 10% faster for older Lenis versions
       smoothTouch: false,
-      touchMultiplier: 2,
+      touchMultiplier: 2.2, // 10% faster on touch
       infinite: false,
     })
+    
+    lenisRef.current = lenis
+    window.lenis = lenis
 
     function raf(time) {
       lenis.raf(time)
@@ -39,6 +44,17 @@ export function useScrollAnimations(mainRef, floatingBtnRef, lastSectionRef) {
       gsap.ticker.remove(lenis.raf)
     }
   }, [])
+
+  useEffect(() => {
+    if (!lenisRef.current) return
+    if (drawerOpen) {
+      lenisRef.current.stop()
+      document.body.style.overflow = 'hidden'
+    } else {
+      lenisRef.current.start()
+      document.body.style.overflow = ''
+    }
+  }, [drawerOpen])
 
   useEffect(() => {
     if (!mainRef.current) return
