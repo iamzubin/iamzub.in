@@ -20,12 +20,11 @@
   }
   --animate-motion-lines: motion-lines-fade 4s infinite;
   @keyframes motion-lines-fade {
-    0%, 75% { opacity: 0; }
-    80% { opacity: 1; }
-    85% { opacity: 0; }
-    90% { opacity: 1; }
-    95% { opacity: 0; }
-    100% { opacity: 0; }
+    0%, 78% { opacity: 0; }
+    79%, 81% { opacity: 1; }
+    83%, 88% { opacity: 0; }
+    89%, 91% { opacity: 1; }
+    93%, 100% { opacity: 0; }
   }
 }
 
@@ -254,6 +253,7 @@ button {
    ======================================== */
 
 .scroll-section {
+  width: 100%;
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
@@ -266,10 +266,10 @@ button {
   padding: 8vh 8vw;
 }
 
-/* Last section (footer) — doesn't need full viewport height */
+/* Last section (footer) */
 .scroll-section--footer {
-  min-height: auto;
-  padding-bottom: 12vh;
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
 /* Footer subtext */
@@ -313,8 +313,6 @@ button {
    ======================================== */
 
 .hero {
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
 }
 
@@ -326,6 +324,8 @@ button {
   justify-content: center;
   width: 100%;
   height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .hero__name {

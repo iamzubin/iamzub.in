@@ -12,6 +12,7 @@ import DrawerTrigger from './components/DrawerTrigger'
 import Lenis from 'lenis'
 
 // Register plugins
+// GSAP plugins must be registered before use
 gsap.registerPlugin(ScrollTrigger, Flip)
 
 const EASE = 'power4.inOut'
@@ -159,6 +160,17 @@ export default function App() {
         })
       })
 
+      gsap.to('.hero__arrow', {
+        opacity: 0,
+        y: 20,
+        scrollTrigger: {
+          trigger: mainRef.current,
+          start: 'top top',
+          end: '150px top',
+          scrub: true
+        }
+      })
+
       const sections = gsap.utils.toArray('.scroll-section')
 
       sections.forEach((section, i) => {
@@ -214,19 +226,41 @@ export default function App() {
           })
         }
 
-        // Text animation on words
-        const split = new SplitType(textEl, { types: 'words' })
-
-        gsap.from(split.words, {
-          opacity: 0,
-          y: 40,
-          rotationZ: 10,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          delay: i === 0 ? 0.2 : 0,
-          scrollTrigger: i === 0 ? null : stConfig
-        })
+        if (i === 0) {
+          // Scale-Up Effect for Hero
+          gsap.from(textEl, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.2, // originally 0.3
+            ease: "back.out(1.7)",
+            delay: 0.1,
+            scrollTrigger: stConfig
+          });
+        } else if (i === 1 || i === 3) {
+          // Popcorn Pop Effect for Sections 2 and 4
+          const split = new SplitType(textEl, { types: 'chars' });
+          gsap.from(split.chars, {
+            scale: 0,
+            y: 30,
+            rotation: () => gsap.utils.random(-20, 20),
+            stagger: { each: 0.02, from: "random" }, // originally 0.04
+            duration: 0.2, // originally 0.4/0.3
+            ease: "back.out(2)",
+            scrollTrigger: stConfig
+          });
+        } else {
+          // Default word animation for other sections
+          const split = new SplitType(textEl, { types: 'words' })
+          gsap.from(split.words, {
+            opacity: 0,
+            y: 40,
+            rotationZ: 10,
+            stagger: 0.05, // originally 0.1
+            duration: 0.4, // originally 0.8
+            ease: "power3.out",
+            scrollTrigger: stConfig
+          })
+        }
       })
 
       // Snap scroll to sections
@@ -312,7 +346,7 @@ export default function App() {
             <div className="floating-svg absolute top-[10%] -right-[40%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
               <EyesSVG className="w-full h-auto" />
             </div>
-            <div className="floating-svg absolute top-[10%] right-[5%] w-[clamp(60px,12vw,120px)] bg-transparent animate-bounce-tilt origin-bottom">
+            <div className="floating-svg absolute top-[10%] right-[100px] w-[clamp(60px,12vw,120px)] bg-transparent animate-bounce-tilt origin-bottom">
               <ThumbsUpSVG className="w-full h-auto" />
             </div>
           </div>
