@@ -1,16 +1,18 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import EyesSVG from './assets/eyes.svg?react'
 import WorreidEyes from './assets/worriedeyes.svg?react'
+import CallMeSVG from './assets/callme.svg?react'
+import ThumbsUpSVG from './assets/thumbsup.svg?react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Flip } from 'gsap/Flip'
 import SplitType from 'split-type'
 import Drawer from './components/Drawer'
 import DrawerTrigger from './components/DrawerTrigger'
-import FloatingButton from './components/FloatingButton'
 import Lenis from 'lenis'
 
-// Register ScrollTrigger
-gsap.registerPlugin(ScrollTrigger)
+// Register plugins
+gsap.registerPlugin(ScrollTrigger, Flip)
 
 const EASE = 'power4.inOut'
 
@@ -18,6 +20,8 @@ export default function App() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const isAnimating = useRef(false)
   const mainRef = useRef(null)
+  const floatingBtnRef = useRef(null)
+  const lastSectionRef = useRef(null)
 
   const openDrawer = useCallback(() => {
     if (isAnimating.current) return
@@ -82,7 +86,7 @@ export default function App() {
   useEffect(() => {
     // Lenis Smooth Scroll setup
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
@@ -210,15 +214,14 @@ export default function App() {
           })
         }
 
-        // Chemtest style text animation for all sections
-        const split = new SplitType(textEl, { types: 'lines, words' })
-        gsap.set(split.lines, { overflow: 'hidden', paddingBottom: '0.1em' })
+        // Text animation on words
+        const split = new SplitType(textEl, { types: 'words' })
 
         gsap.from(split.words, {
           opacity: 0,
-          y: '100%',
+          y: 40,
           rotationZ: 10,
-          stagger: 0.05,
+          stagger: 0.1,
           duration: 0.8,
           ease: "power3.out",
           delay: i === 0 ? 0.2 : 0,
@@ -236,13 +239,48 @@ export default function App() {
             // calculate the exact progress breakpoints for each section
             const totalScroll = self.end - self.start;
             if (totalScroll === 0) return value;
-            const breaks = sections.map(s => s.offsetTop / totalScroll);
+            const breaks = sections.map((s, i) => {
+              if (i === sections.length - 1) return 1;
+              return Math.min(1, s.offsetTop / totalScroll);
+            });
             return gsap.utils.snap(breaks, value);
           },
-          duration: { min: 0.1, max: 0.33 },
-          ease: "power3.out"
+          duration: { min: 0.05, max: 0.15 },
+          ease: "power2.out"
         }
       })
+
+      // Floating button: animate from fixed corner into the footer section using GSAP Flip
+      // Per Emil: Flip animation calculates the delta and translates smoothly
+      if (floatingBtnRef.current && lastSectionRef.current) {
+        ScrollTrigger.create({
+          trigger: lastSectionRef.current,
+          start: 'top 70%',
+          end: 'top 40%',
+          onEnter: () => {
+            const state = Flip.getState(floatingBtnRef.current);
+            gsap.set(floatingBtnRef.current, {
+              position: 'relative',
+              bottom: 'auto',
+              right: 'auto',
+            });
+            Flip.from(state, {
+              duration: 0.6,
+              ease: 'power3.out',
+            });
+          },
+          onLeaveBack: () => {
+            const state = Flip.getState(floatingBtnRef.current);
+            gsap.set(floatingBtnRef.current, {
+              clearProps: 'position,bottom,right',
+            });
+            Flip.from(state, {
+              duration: 0.6,
+              ease: 'power3.out',
+            });
+          },
+        })
+      }
 
     }, mainRef)
 
@@ -252,17 +290,9 @@ export default function App() {
   return (
     <>
       <div
-        className="scroll-progress-bar"
+        className="scroll-progress-bar fixed top-0 left-0 w-full h-[4px] bg-[var(--color-primary)] origin-left z-[9999]"
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '4px',
-          background: 'var(--color-primary)',
-          transformOrigin: 'left',
-          transform: 'scaleX(0)',
-          zIndex: 9999
+          transform: 'scaleX(0)'
         }}
       />
 
@@ -275,85 +305,96 @@ export default function App() {
         <div className="shader-overlay" />
 
         {/* Section 1 */}
-        <section className="scroll-section hero" style={{ position: 'relative' }}>
+        <section className="scroll-section hero relative overflow-hidden">
           {/* Floating Bubbles (Only on first section) */}
-          <div className="fixed-bubbles" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10 }}>
-            <div className="bubble bubble--floating" style={{ top: '15%', left: '15%', transform: 'rotate(-5deg)' }}>Runway is burning</div>
-            <div className="bubble bubble--floating" style={{ top: '75%', right: '15%', transform: 'rotate(8deg)' }}>Skip the interviews</div>
-            <div className="floating-svg" style={{ position: 'absolute', top: '45%', left: '-10%', transform: 'rotate(-2deg)', width: 'clamp(80px, 15vw, 150px)', background: 'none' }}>
-              <EyesSVG style={{ width: '100%', height: 'auto' }} />
+          <div className="fixed-bubbles absolute top-0 left-0 w-full h-full pointer-events-none z-10">
+            <div className="bubble bubble--floating top-[15%] left-[15%] rotate-[-5deg]">Hey There!!</div>
+            <div className="floating-svg absolute top-[10%] -right-[40%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
+              <EyesSVG className="w-full h-auto" />
+            </div>
+            <div className="floating-svg absolute top-[10%] right-[5%] w-[clamp(60px,12vw,120px)] bg-transparent animate-bounce-tilt origin-bottom">
+              <ThumbsUpSVG className="w-full h-auto" />
             </div>
           </div>
 
           <div className="hero__content-wrapper">
-            <h1 className="hero__name">Hey  there.<br />I'm  Zubin.</h1>
+            <h1 className="hero__name">I'm  Zubin.</h1>
           </div>
-          <div className="hero__arrow" aria-hidden="true">▼</div>
+          <div className="hero__arrow absolute bottom-8 left-1/2 -translate-x-1/2" aria-hidden="true">▼</div>
         </section>
 
         {/* Section 2 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <div className="floating-svg bubble--floating" style={{ position: 'absolute', top: '45%', left: '5%', transform: 'rotate(-2deg)', width: 'clamp(80px, 15vw, 150px)', background: 'none' }}>
-              <WorreidEyes style={{ width: '100%', height: 'auto' }} />
+                        <div className="bubble bubble--floating top-[75%] right-[15%] rotate-[8deg]">Skip the interviews</div>
+
+            <div className="floating-svg absolute top-[45%] left-[5%] rotate-[-2deg] w-[clamp(80px,15vw,150px)] bg-transparent">
+              <WorreidEyes className="w-full h-auto" />
             </div>
-            <h1 className="hero__name hero__name--tertiary">Building  the  MVP  was<br />the  fun  part.</h1>
+            {/* Pure Cause font, no display accent */}
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">Building  the  MVP  was<br />the  fun  part.</h1>
           </div>
         </section>
 
         {/* Section 3 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">But  eventually,  the  codebase<br />starts  to  crack.</h1>
+            {/* Highlighted text block */}
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">But  eventually,  the  codebase <br /> starts  to<span className="highlight">crack</span></h1>
           </div>
         </section>
 
         {/* Section 4 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">AI-generated  apps<br />collapse  under  load.</h1>
+            {/* Pure Cause font */}
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">AI-generated  apps<br />collapse  under  load.</h1>
           </div>
         </section>
 
         {/* Section 5 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">Heavy  desktop  builds<br />drain  system  memory.</h1>
+            {/* Highlighted text block */}
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">Desktop  builds  that<br /><span className="highlight">drain  your  memory.</span></h1>
           </div>
         </section>
 
         {/* Section 6 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--secondary">And  hiring  a  full-time<br />senior  engineer  takes  months.</h1>
+            {/* Pure Cause font */}
+            <h1 className="hero__name hero__name--secondary hero__name--mixed">Hiring  a  senior  engineer<br />takes  months.</h1>
           </div>
         </section>
 
         {/* Section 7 */}
         <section className="scroll-section">
           <div className="hero__content-wrapper">
-            <h1 className="hero__name hero__name--tertiary">I  step  in  and  fix  the<br />architecture  in  weeks.</h1>
+            <h1 className="hero__name hero__name--tertiary hero__name--mixed">I  step  in  and<br /><span className="accent">fix  it  in  weeks.</span></h1>
           </div>
         </section>
 
-        {/* Section 8 */}
-        <section className="scroll-section">
-                      <div
-              className="bubble"
-              style={{ background: 'var(--color-primary)', color: 'var(--color-white)', cursor: 'pointer', fontSize: 'clamp(1.2rem, 5vw, 4rem)', padding: 'clamp(1rem, 3vw, 2rem) clamp(1.5rem, 6vw, 4rem)', transform: 'none', textAlign: 'center', whiteSpace: 'normal', position: 'relative', left: 'auto', bottom: 'auto', top: 'auto', right: 'auto' }}
+        {/* Section 8 — Footer */}
+        <section className="scroll-section scroll-section--footer" ref={lastSectionRef}>
+          <div className="hero__content-wrapper justify-center items-center gap-12">
+            <div className="floating-btn-placeholder" />
+            <button
+              ref={floatingBtnRef}
               onClick={openDrawer}
+              className="floating-btn cursor-pointer z-10"
+              aria-label="Book a Scoping Call"
             >
-              Book a Scoping Call
+              <CallMeSVG className="animate-periodic-shake w-[clamp(8rem,15vw,12rem)] h-[clamp(8rem,15vw,12rem)] fill-transparent stroke-[var(--color-primary)] stroke-[1.5px]" />
+            </button>
+            <div className="final-subtext">
+              <span className="final-subtext__heading">Let's  talk.</span>
+              <div className="final-subtext__links">
+                <a href="https://twitter.com/zubin" target="_blank" rel="noopener noreferrer">Twitter  →  @ZUBIN</a>
+                <a href="https://linkedin.com/in/zubin" target="_blank" rel="noopener noreferrer">LinkedIn  →  IN/ZUBIN</a>
+                <a href="mailto:hello@zubin.dev">Email  →  HELLO@ZUBIN.DEV</a>
+              </div>
             </div>
-          <div className="hero__content-wrapper" style={{ justifyContent: 'center', alignItems: 'center', gap: '4rem' }}>
-            <div className="final-subtext" style={{ color: 'var(--color-primary)', fontSize: 'clamp(0.8rem, 2vw, 1rem)', lineHeight: '1.6', fontWeight: '500', opacity: 0.9, textAlign: 'center' }}>
-              At any time, you can reach out :<br />
-              on Twitter : <strong>@ZUBIN</strong><br />
-              on LinkedIn : <strong>IN/ZUBIN</strong><br />
-              on Email : <strong>HELLO@ZUBIN.DEV</strong>
-            </div>
-
-
           </div>
         </section>
 
@@ -373,7 +414,6 @@ export default function App() {
 
 
       <DrawerTrigger isOpen={drawerOpen} onClick={toggleDrawer} />
-      <FloatingButton />
     </>
   )
 }

@@ -1,3 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-periodic-shake: periodic-shake 3s infinite;
+  @keyframes periodic-shake {
+    0%, 80% { transform: rotate(-20deg) scale(1); }
+    85% { transform: rotate(-10deg) scale(1.15); }
+    90% { transform: rotate(-30deg) scale(1.15); }
+    95% { transform: rotate(-10deg) scale(1.15); }
+    100% { transform: rotate(-20deg) scale(1); }
+  }
+  --animate-bounce-tilt: bounce-tilt 4s infinite;
+  @keyframes bounce-tilt {
+    0%, 75% { transform: rotate(0deg); }
+    80% { transform: rotate(25deg); animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+    85% { transform: rotate(0deg); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    90% { transform: rotate(25deg); animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+    95% { transform: rotate(0deg); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+    100% { transform: rotate(0deg); }
+  }
+  --animate-motion-lines: motion-lines-fade 4s infinite;
+  @keyframes motion-lines-fade {
+    0%, 75% { opacity: 0; }
+    80% { opacity: 1; }
+    85% { opacity: 0; }
+    90% { opacity: 1; }
+    95% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+}
+
 /* ========================================
    Font Declarations
    ======================================== */
@@ -28,7 +59,8 @@
   --color-bg: #f2f2f2;
   --color-white: #ffffff;
 
-  --font-main: 'Boris', 'LCT Mogi', system-ui, -apple-system, sans-serif;
+  --font-main: 'Slackey', system-ui, -apple-system, sans-serif;
+  --font-body: 'Cause', system-ui, -apple-system, sans-serif;
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   --drawer-width: clamp(380px, 42vw, 680px);
@@ -64,6 +96,13 @@ body {
   line-height: 1.5;
   position: relative;
   user-select: none;
+  /* Hide scrollbar globally — fixes drawer-trigger hover hit area issue */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
 }
 
 
@@ -189,7 +228,7 @@ button {
   background: var(--color-white);
   color: var(--color-primary);
   border-radius: 9999px;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-weight: 500;
   font-size: clamp(1rem, 2vw, 1.5rem);
   white-space: nowrap;
@@ -224,7 +263,49 @@ button {
   text-align: center;
   position: relative;
   z-index: 1;
-  padding: 12vh 8vw 8vh;
+  padding: 8vh 8vw;
+}
+
+/* Last section (footer) — doesn't need full viewport height */
+.scroll-section--footer {
+  min-height: auto;
+  padding-bottom: 12vh;
+}
+
+/* Footer subtext */
+.final-subtext {
+  color: var(--color-primary);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  opacity: 0.9;
+}
+
+.final-subtext__heading {
+  font-family: var(--font-main);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.final-subtext__links {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  line-height: 1.8;
+}
+
+.final-subtext__links a {
+  transition: opacity 0.2s ease;
+}
+
+.final-subtext__links a:hover {
+  opacity: 0.6;
 }
 
 /* ========================================
@@ -232,8 +313,9 @@ button {
    ======================================== */
 
 .hero {
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .hero__content-wrapper {
@@ -247,10 +329,10 @@ button {
 }
 
 .hero__name {
-  font-size: clamp(3rem, 14vw, 15rem);
+  font-size: clamp(3rem, 10vw + 1rem, 15rem);
   line-height: 0.85;
   letter-spacing: -0.02em;
-  font-weight: 900;
+  font-weight: 500;
   color: var(--color-primary);
   margin: 0;
   padding: 0;
@@ -266,11 +348,35 @@ button {
 }
 
 .hero__name--secondary {
-  font-size: clamp(2.5rem, 10vw, 10rem);
+  font-size: clamp(2.5rem, 7vw + 0.5rem, 10rem);
 }
 
 .hero__name--tertiary {
-  font-size: clamp(2rem, 8vw, 8rem);
+  font-size: clamp(2rem, 5.5vw + 0.5rem, 8rem);
+}
+
+/* Mixed-font headings: Cause body + Slackey accent */
+.hero__name--mixed {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.hero__name--mixed .accent {
+  font-family: var(--font-main);
+  font-weight: 500;
+}
+
+/* Chemtest-style highlight */
+.hero__name .highlight {
+  /* background-color: var(--color-primary); */
+    font-family: var(--font-main);
+    font-weight: 900;
+  color: var(--color-white);
+  padding: 0 0.25em;
+  border-radius: 0.1em;
+  display: inline-block;
+  line-height: 1.1;
+  transform: translateY(0.05em); /* optical alignment for block background */
 }
 
 /* ========================================
@@ -351,7 +457,77 @@ button {
 }
 
 /* ========================================
+   Drawer Details Section (chemtest-style)
+   ======================================== */
+
+.drawer__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.drawer__detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.drawer__detail-label {
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  min-width: 5rem;
+  padding-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.drawer__detail-value {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.drawer__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer__status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0); }
+}
+
+.drawer__credentials {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.5;
+}
+
+.drawer__credentials span {
+  white-space: nowrap;
+}
+
+/* ========================================
    Floating Action Button
+   Fixed at bottom-right, transitions into footer section.
+   Animation handled by GSAP timeline — scale + opacity only.
    ======================================== */
 
 .floating-btn {
@@ -364,25 +540,18 @@ button {
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  will-change: transform, opacity;
+  transition: filter 0.3s var(--ease-smooth);
 }
 
-.floating-btn__svg {
-  width: clamp(4rem, 10vw, 5rem);
-  height: clamp(4rem, 10vw, 5rem);
-  transform: rotate(-20deg);
-  fill: transparent;
-  stroke: var(--color-primary);
-  stroke-width: 1px;
-  transition: transform 0.4s var(--ease-smooth);
+.floating-btn:hover {
+  filter: brightness(1.15);
 }
 
-@keyframes btn-shake {
-  0%, 100% { transform: rotate(-5deg) scale(1.1); }
-  50% { transform: rotate(5deg) scale(1.1); }
-}
-
-.floating-btn:hover .floating-btn__svg {
-  animation: btn-shake 0.25s ease-in-out infinite;
+/* Placeholder keeps layout space when button is fixed */
+.floating-btn-placeholder {
+  width: clamp(8rem, 15vw, 12rem);
+  height: 0;
 }
 
 .floating-btn__path {
@@ -413,11 +582,11 @@ button {
 
 .drawer-trigger {
   position: fixed;
-  right: 0;
+  right: -0.1rem;
   top: 0;
   height: 100vh;
   height: 100svh;
-  width: var(--trigger-width);
+  width: calc(var(--trigger-width) + 0.1rem);
   z-index: 1005;
   display: flex;
   flex-direction: column;
@@ -430,9 +599,25 @@ button {
   transition: transform 0.3s var(--ease-smooth);
 }
 
+/* Invisible wider hit area so hover is easy without scrollbar */
+.drawer-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(var(--trigger-width) + 1.5rem);
+  height: 100%;
+  z-index: -1;
+}
+
+
+
 @media (min-width: 768px) {
   .drawer-trigger:hover {
     transform: translateX(-0.1rem);
+  }
+  .drawer-trigger:hover .drawer-trigger__hover-bg {
+    opacity: 1;
   }
   .drawer-trigger.is-open {
     display: none;
@@ -453,7 +638,7 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.15); /* Light overlay preserves gradient */
   opacity: 0;
   z-index: 2;
   transition: opacity 0.3s var(--ease-smooth);
@@ -462,9 +647,9 @@ button {
 .drawer-trigger__label {
   position: relative;
   z-index: 3;
-  margin-top: 3.5rem;
-  transform: rotate(-90deg);
-  transform-origin: center center;
+  margin-top: 4rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
   color: var(--color-white);
   font-family: var(--font-sans);
   font-weight: 900;
@@ -556,7 +741,7 @@ button {
   transform: translateX(100%);
   will-change: transform;
   overflow: hidden;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
 }
 
 .drawer h1, .drawer h2, .drawer h3 {

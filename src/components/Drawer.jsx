@@ -79,8 +79,8 @@ export default function Drawer({ isOpen }) {
           <div>
             <h2 className="drawer__heading">Engagements</h2>
             <p className="drawer__intro">
-              Instead of open-ended hourly work, I offer structured sprints so you
-              know exactly what you get and when.
+              No open-ended hourly work. Structured sprints with clear scope,
+              timeline, and deliverables.
             </p>
           </div>
 
@@ -91,7 +91,7 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="Technical Rescue"
               timeline="1–2 Weeks"
-              description="Taking brittle, AI-scaffolded prototypes (Cursor, Lovable, v0) and hardening them into secure, production-ready applications with proper state management and database architecture."
+              description="Your AI-scaffolded prototype ships but breaks under real users. I harden it into a production-ready app — proper state management, database architecture, auth, and error handling."
               isWork={false}
             />
             <AccordionItem 
@@ -100,7 +100,7 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="Spike Sprint"
               timeline="1 Week"
-              description="A focused, low-risk engagement to investigate a technical bottleneck, test feasibility, and map out the architecture before a major build."
+              description="Before committing to a major build, I investigate the bottleneck, test feasibility, and map out the architecture. You get a clear technical plan — not a guess."
               isWork={false}
             />
             <AccordionItem 
@@ -109,7 +109,7 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="Build Sprint"
               timeline="2–4 Weeks"
-              description="End-to-end execution of specific, backend-heavy features, complex third-party integrations, or migrating heavy Electron apps to lightweight Tauri environments."
+              description="End-to-end execution of backend-heavy features, complex integrations, or migrating bloated Electron apps to lightweight Tauri builds."
               isWork={false}
             />
           </div>
@@ -128,7 +128,7 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="Holdem"
               tags="Desktop Systems / Rust & Tauri"
-              description="Engineered a lightweight desktop application utilizing Tauri to drastically reduce background memory footprint compared to standard Electron builds."
+              description="Cross-platform floating file holder built in Tauri. Drastically lower memory footprint than Electron equivalents."
               highlight="(130+ GitHub Stars)."
               isWork={true}
             />
@@ -138,7 +138,7 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="Burner Wallet"
               tags="Web3 / Hardware Integration"
-              description="Built an NFC-enabled hardware interface featuring tap-to-sign functionality, bridging physical hardware UX with on-chain interactions."
+              description="NFC-enabled hardware wallet with tap-to-sign. Bridges physical UX with on-chain transactions — zero seed phrase exposure."
               isWork={true}
             />
             <AccordionItem 
@@ -147,19 +147,47 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="StockDesk"
               tags="B2B / Internal Tools"
-              description="Developed a robust internal operations platform for a retail business. Simplified live stock checks and resolved ground-level operational friction for daily inventory management."
+              description="Internal operations platform for a retail business. Live stock checks, daily inventory management, and ground-level operational tools."
               isWork={true}
             />
           </div>
 
-          {/* — Sidebar Footer — */}
-          <div className="drawer__footer">
-            <p>Currently based in Bengaluru. Available for async, remote contracts globally.</p>
-            <div className="drawer__socials">
-              <a href="#">[ GitHub ]</a>
-              <a href="#">[ Twitter/X ]</a>
-              <a href="#">[ Email ]</a>
+          <div className="drawer__divider" />
+
+          {/* — Details (chemtest-style) — */}
+          <div className="drawer__details">
+            <div className="drawer__detail-row">
+              <span className="drawer__detail-label">Status</span>
+              <span className="drawer__detail-value">
+                <span className="drawer__status">
+                  <span className="drawer__status-dot" />
+                  Available for new contracts
+                </span>
+              </span>
             </div>
+            <div className="drawer__detail-row">
+              <span className="drawer__detail-label">Based in</span>
+              <span className="drawer__detail-value">Bengaluru, India · IST (UTC+5:30)</span>
+            </div>
+            <div className="drawer__detail-row">
+              <span className="drawer__detail-label">Reach</span>
+              <span className="drawer__detail-value">Async & remote — any timezone</span>
+            </div>
+            <div className="drawer__detail-row">
+              <span className="drawer__detail-label">Links</span>
+              <div className="drawer__socials" style={{ marginTop: 0 }}>
+                <a href="https://github.com/iamzubin" target="_blank" rel="noopener noreferrer">[ GitHub ]</a>
+                <a href="https://twitter.com/zubin" target="_blank" rel="noopener noreferrer">[ Twitter/X ]</a>
+                <a href="https://linkedin.com/in/zubin" target="_blank" rel="noopener noreferrer">[ LinkedIn ]</a>
+                <a href="mailto:hello@zubin.dev">[ Email ]</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="drawer__credentials">
+            <span>GSoC '19</span>
+            <span>·</span>
+            <span>Imagine Cup Asia '20</span>
           </div>
 
         </div>

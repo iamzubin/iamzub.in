@@ -8,7 +8,7 @@ export default function DrawerTrigger({ isOpen, onClick }) {
     >
       <div className={`drawer-trigger__bg ${isOpen ? 'hidden' : ''}`}></div>
       <div className={`drawer-trigger__hover-bg ${isOpen ? 'hidden' : ''}`}></div>
-      <div className={`drawer-trigger__label ${isOpen ? 'hidden' : ''}`}>Work</div>
+      <div className={`drawer-trigger__label ${isOpen ? 'hidden' : ''}`}>Check out my work here!!</div>
 
       <div className={`drawer-trigger__hamburger ${isOpen ? 'open' : ''}`}>
         <span className="hamburger-line"></span>
