@@ -1,0 +1,27 @@
+{
+  "name": "Zubin Choudhary — Full-Stack Developer & Product Engineer",
+  "short_name": "Zubin Choudhary",
+  "description": "I ship complex product features, build lightweight desktop applications, and rescue fragile codebases for scaling startups.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2f2f2",
+  "theme_color": "#283881",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}

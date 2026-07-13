@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import EyesSVG from './assets/eyes.svg?react'
 import EyesDownSVG from './assets/eyesdown.svg?react'
 import WinkEyesSVG from './assets/winkeyes.svg?react'
@@ -216,6 +217,8 @@ export default function App() {
       </button>
 
       <DrawerTrigger isOpen={drawerOpen} onClick={toggleDrawer} />
+
+      <Analytics />
     </>
   )
 }
