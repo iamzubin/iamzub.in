@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import gsap from 'gsap'
 
 const EASE = 'power4.inOut'
 
@@ -35,24 +34,21 @@ const DrawerInfo = () => (
   </div>
 )
 
-const AccordionItem = ({ id, openId, onToggle, title, timeline, tags, description, highlight, isWork, image, video, link, linkText }) => {
+const AccordionItem = ({ id, openId, onToggle, title, timeline, tags, description, highlight, isWork, image, imageWidth, imageHeight, video, videoWidth, videoHeight, link, linkText }) => {
   const isOpen = openId === id
   const contentRef = useRef(null)
 
   useEffect(() => {
-    if (isOpen) {
+    let cancelled = false
+    import('gsap').then(({ default: gsap }) => {
+      if (cancelled) return
       gsap.to(contentRef.current, {
-        height: 'auto',
+        height: isOpen ? 'auto' : 0,
         duration: 0.5,
         ease: EASE
       })
-    } else {
-      gsap.to(contentRef.current, {
-        height: 0,
-        duration: 0.5,
-        ease: EASE
-      })
-    }
+    })
+    return () => { cancelled = true }
   }, [isOpen])
 
   return (
@@ -75,14 +71,14 @@ const AccordionItem = ({ id, openId, onToggle, title, timeline, tags, descriptio
         className={isWork ? 'work-item__body' : 'engagement-item__body'}
       >
         <div className={isWork ? 'work-item__body-inner' : 'engagement-item__body-inner'}>
-          {image && (
+          {image && isOpen && (
             <div className="mb-4 rounded-md overflow-hidden shadow-sm">
-              <img src={image} alt={title} className="w-full h-auto object-cover" />
+              <img src={image} alt={title} width={imageWidth} height={imageHeight} loading="lazy" decoding="async" className="w-full h-auto object-cover" />
             </div>
           )}
-          {video && (
+          {video && isOpen && (
             <div className="mb-4 rounded-md overflow-hidden shadow-sm">
-              <video src={video} autoPlay loop muted playsInline className="w-full h-auto object-cover" />
+              <video src={video} autoPlay loop muted playsInline preload="none" width={videoWidth} height={videoHeight} className="w-full h-auto object-cover" />
             </div>
           )}
           {isWork ? (
@@ -124,6 +120,7 @@ export default function Drawer({ isOpen }) {
     <aside
       className="drawer"
       aria-hidden={!isOpen}
+      inert={!isOpen}
       role="complementary"
       id="drawer-panel"
       data-lenis-prevent="true"
@@ -152,6 +149,8 @@ export default function Drawer({ isOpen }) {
               tags="Desktop Systems / Rust & Tauri"
               description="Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders."
               image="/assets/holdem.gif"
+              imageWidth={1920}
+              imageHeight={1080}
               isWork={true}
               link="https://holdem.iamzub.in/"
               linkText="Download"
@@ -164,6 +163,8 @@ export default function Drawer({ isOpen }) {
               tags="WebAssembly Audio"
               description="A browser-based audio stem player allowing users to manipulate individual tracks in real-time. Leverages WebAudio API and complex memory management for FFmpeg WASM processing."
               image="/assets/stemplayer.png"
+              imageWidth={2289}
+              imageHeight={1294}
               isWork={true}
               link="https://stem-player-ecru.vercel.app/"
               linkText="Check it out"
@@ -176,6 +177,8 @@ export default function Drawer({ isOpen }) {
               tags="Web3 / Account Abstraction"
               description="Simplifying Ethereum account management with ERC-4337 and Smart Contract Wallets. Easy Web3 integration, gas sponsorship, and seamless user onboarding."
               image="/assets/ffreed-image.jpg"
+              imageWidth={1600}
+              imageHeight={900}
               isWork={true}
             />
             <AccordionItem 
@@ -186,6 +189,8 @@ export default function Drawer({ isOpen }) {
               tags="Web3 / Page Builder"
               description="A creative page-builder that empowers creators to craft personalized websites with Web3 elements, like NFT showcases and blockchain integration."
               video="/assets/stubs.mp4"
+              videoWidth={1920}
+              videoHeight={1080}
               isWork={true}
             />
           </div>
