@@ -42,10 +42,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cause:wght@400;500;700&family=Slackey&display=swap" rel="stylesheet">
+    <!-- Self-hosted fonts (preloaded, no render-blocking CSS) -->
+    <link rel="preload" href="/fonts/slackey-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/cause-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Structured Data: Person -->
     <script type="application/ld+json">

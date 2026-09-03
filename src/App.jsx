@@ -6,12 +6,14 @@ import WinkEyesSVG from './assets/winkeyes.svg?react'
 import CallMeSVG from './assets/callme.svg?react'
 import ThumbsUpSVG from './assets/thumbsup.svg?react'
 import PointerSVG from './assets/pointer.svg?react'
-import gsap from 'gsap'
 import Drawer from './components/Drawer'
 import DrawerTrigger from './components/DrawerTrigger'
 import { useScrollAnimations } from './hooks/useScrollAnimations'
 
 const EASE = 'power4.inOut'
+
+const gsapTo = (targets, vars) =>
+  import('gsap').then(({ default: gsap }) => gsap.to(targets, vars))
 
 export default function App() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -25,7 +27,7 @@ export default function App() {
     isAnimating.current = true
     const isMobile = window.innerWidth < 768
 
-    gsap.to('.drawer', {
+    gsapTo('.drawer', {
       x: isMobile ? 0 : '2.1rem',
       duration: 1,
       ease: EASE,
@@ -33,7 +35,7 @@ export default function App() {
     })
 
     if (!isMobile) {
-      gsap.to('.drawer-close-btn', {
+      gsapTo('.drawer-close-btn', {
         x: 0,
         opacity: 1,
         pointerEvents: 'auto',
@@ -48,14 +50,14 @@ export default function App() {
     if (isAnimating.current) return
     isAnimating.current = true
 
-    gsap.to('.drawer', {
+    gsapTo('.drawer', {
       x: '100vw',
       duration: 1,
       ease: EASE,
       onComplete: () => { isAnimating.current = false },
     })
 
-    gsap.to('.drawer-close-btn', {
+    gsapTo('.drawer-close-btn', {
       x: '-4rem',
       opacity: 0,
       pointerEvents: 'none',
