@@ -1092,6 +1092,12 @@ button {
   opacity: 0.9;
 }
 
+.work-item__case-study {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 /* ========================================
    Responsive
    ======================================== */
