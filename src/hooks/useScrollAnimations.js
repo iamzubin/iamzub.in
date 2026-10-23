@@ -40,7 +40,7 @@ export function useScrollAnimations(mainRef, floatingBtnRef, lastSectionRef, dra
     loadLibs().then(({ gsap, ScrollTrigger, Lenis }) => {
       if (disposed) return
       const lenis = new Lenis({
-        duration: 0.75,
+        duration: 0.4,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         direction: 'vertical',
         gestureDirection: 'vertical',
@@ -260,6 +260,7 @@ export function useScrollAnimations(mainRef, floatingBtnRef, lastSectionRef, dra
               return gsap.utils.snap(breaks, value);
             },
             duration: { min: 0.05, max: 0.15 },
+            delay: 0,
             ease: "power2.out"
           }
         })
