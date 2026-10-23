@@ -34,7 +34,7 @@ const DrawerInfo = () => (
   </div>
 )
 
-const AccordionItem = ({ id, openId, onToggle, title, timeline, tags, description, highlight, isWork, image, imageWidth, imageHeight, video, videoWidth, videoHeight, link, linkText }) => {
+const AccordionItem = ({ id, openId, onToggle, title, timeline, tags, description, highlight, caseStudy, isWork, image, imageWidth, imageHeight, video, videoWidth, videoHeight, link, linkText }) => {
   const isOpen = openId === id
   const contentRef = useRef(null)
 
@@ -90,6 +90,16 @@ const AccordionItem = ({ id, openId, onToggle, title, timeline, tags, descriptio
             {description}
             {highlight && <span className="work-item__highlight"> {highlight}</span>}
           </p>
+          {caseStudy && (
+            <dl className="work-item__case-study">
+              {caseStudy.map(({ label, text }) => (
+                <div key={label}>
+                  <dt className="work-item__tags">{label}</dt>
+                  <dd className="work-item__description">{text}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           {link && (
             <div className="mt-4">
               <a 
@@ -147,13 +157,37 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="Holdem"
               tags="Desktop Systems / Rust & Tauri"
-              description="Holdem is an open-source tool for smoother file drag-and-drop management, offering a temporary holding area for files and folders."
+              description="A free, open-source floating shelf for stashing files mid-drag on Windows."
+              caseStudy={[
+                { label: 'Problem', text: 'Moving files on Windows means juggling Explorer windows or dumping things on the Desktop "for now". Dropover fixes this, but only on macOS.' },
+                { label: 'Build', text: 'A Tauri + Rust tray app. Shake the mouse while dragging and the shelf appears at the cursor; drop files, folders or browser images, then drag them out anywhere. Global hotkey, auto-update, 25 languages.' },
+                { label: 'Result', text: 'Shipped v3.1.0 under MIT, with 160+ stars on GitHub.' },
+              ]}
               image="/assets/holdem.gif"
               imageWidth={1920}
               imageHeight={1080}
               isWork={true}
               link="https://holdem.iamzub.in/"
               linkText="Download"
+            />
+            <AccordionItem 
+              id="addercad"
+              openId={openId}
+              onToggle={handleToggle}
+              title="AdderCAD"
+              tags="AI Agents / CAD"
+              description="Text to CAD for 3D printing: describe a part in plain English and get a real parametric model."
+              caseStudy={[
+                { label: 'Problem', text: 'Getting a custom part printed means learning CAD first. Most text-to-3D tools produce meshes you can\'t edit or dimension.' },
+                { label: 'Build', text: 'An agent that plans the part on our server and runs the operations inside FreeCAD through a chat-panel addon. A Node/TypeScript backend handles device-flow sign-in, a prepaid credits ledger and billing. Exports STEP and STL, checked for bed fit, overhangs and wall thickness.' },
+                { label: 'Result', text: 'Benchmarked the agent loop on cadbench before shipping. Launching soon, with the waitlist open.' },
+              ]}
+              image="/assets/addercad.png"
+              imageWidth={1200}
+              imageHeight={630}
+              isWork={true}
+              link="https://addercad.com/"
+              linkText="Join the waitlist"
             />
             <AccordionItem 
               id="stemplayer"
@@ -175,7 +209,12 @@ export default function Drawer({ isOpen }) {
               onToggle={handleToggle}
               title="FFreed"
               tags="Web3 / Account Abstraction"
-              description="Simplifying Ethereum account management with ERC-4337 and Smart Contract Wallets. Easy Web3 integration, gas sponsorship, and seamless user onboarding."
+              description="A low-code Web3 SDK that lets developers with little blockchain experience ship Ethereum apps."
+              caseStudy={[
+                { label: 'Problem', text: 'Onboarding is where most dApps lose people: seed phrases, gas balances, and custom contracts that need expensive audits.' },
+                { label: 'Build', text: 'An SDK on ERC-4337 account abstraction. Users sign in with a social account and get a smart contract wallet that supports multiple signers. Gas is sponsored and transactions are bundled. Accounts run on standard contracts, so teams skip writing and auditing their own.' },
+                { label: 'Result', text: 'We built a full crypto wallet on the SDK to prove it out, plus developer docs.' },
+              ]}
               image="/assets/ffreed-image.jpg"
               imageWidth={1600}
               imageHeight={900}
